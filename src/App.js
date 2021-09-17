@@ -3,7 +3,7 @@ import { Message } from "./components/Message";
 
 let message = {
   id: 1,
-  text: "Hello World!",
+  text: "Hello World!!!",
 };
 
 export const App = (props) => {
