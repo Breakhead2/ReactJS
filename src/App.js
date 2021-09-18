@@ -1,5 +1,5 @@
 import "./App.css";
-import { Message } from "./components/Message";
+import { Message } from "./components/Message/Message";
 
 let message = {
   id: 1,
