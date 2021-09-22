@@ -1,0 +1,10 @@
+.form button {
+  padding: 5px 10px;
+}
+.inptMessage {
+  padding: 5px 10px;
+  margin-right: 5px;
+}
+.inptMessage:focus {
+  border: none;
+}

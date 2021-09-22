@@ -1,7 +1,11 @@
 .box {
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #74b4e0;
+  border: 1px solid gray;
+  border-radius: 10px;
 }
 
 .text {

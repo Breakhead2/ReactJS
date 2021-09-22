@@ -1,11 +1,12 @@
 import style from "./Message.module.css";
+import { MessageList } from "./MessageList/MessageList";
+import { MessageForm } from "./MessageForm/MessageForm";
 
 export const Message = (props) => {
-  let src = "images/img_" + props.message.id + ".png";
   return (
     <div className={style.box}>
-      <img className={style.cloud_img} src={src} alt="cloud" />
-      <div className={style.text}>{props.message.text}</div>
+      <MessageList messages={props.messages} />
+      <MessageForm pushMessage={props.pushMessage} />
     </div>
   );
 };
