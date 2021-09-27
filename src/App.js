@@ -23,6 +23,7 @@ export const App = (props) => {
         return messages;
       } else if (messages[messages.length - 1].author === "Denis") {
         let msg = {
+          id: messages.length + 1,
           author: "Bot",
           text: "Привет, " + messages[0].author,
         };
