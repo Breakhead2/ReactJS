@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { Message } from "./components/Message/Message";
 
 export const App = (props) => {
   const [messages, setMessages] = useState([]);
 
-  const pushMessage = (text) => {
-    let msg = {
-      id: messages.length + 1,
-      author: "Denis",
-      text: text,
-    };
-    return setMessages([...messages, msg]);
-  };
+  const pushMessage = useCallback(
+    (text) => {
+      let msg = {
+        id: messages.length + 1,
+        author: "Denis",
+        text: text,
+      };
+      setMessages([...messages, msg]);
+    },
+    [messages]
+  );
 
   useEffect(() => {
     setTimeout(() => {
