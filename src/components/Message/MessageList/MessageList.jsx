@@ -1,13 +1,9 @@
 import style from "./MessageList.module.css";
+import { MessageItem } from "./MessageItem/MessageItem";
 
 export const MessageList = (props) => {
-  let messages = props.messages.map((message) => {
-    return (
-      <div className={style.item}>
-        <p className={style.author}>{message.author}:</p>
-        <p className={style.text}>{message.text}</p>
-      </div>
-    );
-  });
+  let messages = props.messages.map((message) => (
+    <MessageItem author={message.author} text={message.text} />
+  ));
   return <div className={style.list}>{messages}</div>;
 };

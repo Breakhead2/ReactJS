@@ -1,0 +1,14 @@
+.item {
+  width: 490px;
+  padding: 2px 5px 5px 5px;
+  background-color: #74b4e0;
+  border-radius: 5px;
+  color: white;
+  font-style: italic;
+  margin-bottom: 5px;
+  word-wrap: break-word;
+}
+.author {
+  font-weight: bold;
+  color: blue;
+}
