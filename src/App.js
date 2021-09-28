@@ -1,21 +1,32 @@
 import { useCallback, useEffect, useState } from "react";
-import "./App.css";
 import { Message } from "./components/Message/Message";
+import { ChatRoom } from "./components/ChatRoom/ChatRoom";
+import "./App.css";
 
 export const App = (props) => {
   const [messages, setMessages] = useState([]);
+  const [messageText, setMessageText] = useState("");
+  let chatRooms = [
+    { id: 1, name: "Denis" },
+    { id: 2, name: "Ivan" },
+    { id: 3, name: "Maxim" },
+    { id: 4, name: "Anna" },
+    { id: 5, name: "Kate" },
+  ];
 
-  const pushMessage = useCallback(
-    (text) => {
-      let msg = {
-        id: messages.length + 1,
-        author: "Denis",
-        text: text,
-      };
-      setMessages([...messages, msg]);
-    },
-    [messages]
-  );
+  const handleChange = useCallback((text) => {
+    setMessageText(text);
+  }, []);
+
+  const pushMessage = useCallback(() => {
+    let msg = {
+      id: messages.length + 1,
+      author: "Denis",
+      text: messageText,
+    };
+    setMessages([...messages, msg]);
+    setMessageText("");
+  }, [messages, messageText]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -27,14 +38,20 @@ export const App = (props) => {
           author: "Bot",
           text: "Привет, " + messages[0].author,
         };
-        return setMessages([...messages, msg]);
+        setMessages([...messages, msg]);
       }
     }, 2000);
   }, [messages]);
 
   return (
     <div className="wrapper">
-      <Message messages={messages} pushMessage={pushMessage} />
+      <ChatRoom chatRooms={chatRooms} />
+      <Message
+        messages={messages}
+        pushMessage={pushMessage}
+        handleChange={handleChange}
+        messageText={messageText}
+      />
     </div>
   );
 };

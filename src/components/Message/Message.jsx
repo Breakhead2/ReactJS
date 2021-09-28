@@ -6,7 +6,11 @@ export const Message = (props) => {
   return (
     <div className={style.box}>
       <MessageList messages={props.messages} />
-      <MessageForm pushMessage={props.pushMessage} />
+      <MessageForm
+        pushMessage={props.pushMessage}
+        handleChange={props.handleChange}
+        messageText={props.messageText}
+      />
     </div>
   );
 };

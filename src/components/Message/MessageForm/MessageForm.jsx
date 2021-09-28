@@ -1,19 +1,44 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import style from "./MessageForm.module.css";
+import { TextField, Button } from "@material-ui/core";
 
 export const MessageForm = (props) => {
-  let curentValue = React.createRef();
+  const ref = useRef(null);
 
-  const onSendMessages = (event) => {
-    event.preventDefault();
-    props.pushMessage(curentValue.current.value);
-    curentValue.current.value = "";
-  };
+  const handleChange = useCallback(
+    (event) => {
+      props.handleChange(event.target.value);
+    },
+    [props]
+  );
+
+  useEffect(() => {
+    ref.current?.focus();
+  });
+
+  const handleCLick = useCallback(
+    (event) => {
+      event.preventDefault();
+      props.pushMessage();
+    },
+    [props]
+  );
 
   return (
-    <form className={style.form}>
-      <input className={style.inptMessage} type="text" ref={curentValue} />
-      <button onClick={onSendMessages}>PUSH</button>
-    </form>
+    <div className={style.form}>
+      <TextField
+        id="filled-textarea"
+        label="Enter your message"
+        placeholder="Placeholder"
+        multiline
+        variant="outlined"
+        onChange={handleChange}
+        value={props.messageText}
+        inputRef={ref}
+      />
+      <Button variant="contained" color="primary" onClick={handleCLick}>
+        PUSH
+      </Button>
+    </div>
   );
 };
