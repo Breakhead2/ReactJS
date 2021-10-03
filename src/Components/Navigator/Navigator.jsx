@@ -30,7 +30,7 @@ export const Navigator = ({
     >
       <div className={style.tools}>
         <FormControlLabel
-          control={<Switch checked={lightTheme} onClick={handleSwitch} />}
+          control={<Switch onClick={handleSwitch} />}
           label={lightTheme ? "Light" : "Dark"}
           style={{
             paddingLeft: "20px",

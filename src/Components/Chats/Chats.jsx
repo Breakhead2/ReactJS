@@ -36,6 +36,15 @@ const ChatItem = ({ name, lightTheme, pathId, deleteChat }) => {
 
   return (
     <div className={style.box}>
+      <Link componentclass="span" exact to={`/profile/${pathId}`}>
+        <ListItemAvatar>
+          <Avatar
+            alt={name}
+            src={src}
+            style={{ width: "56px", height: "56px", marginLeft: "20px" }}
+          />
+        </ListItemAvatar>
+      </Link>
       <Link
         exact
         to={`/chats/${pathId}`}
@@ -47,15 +56,6 @@ const ChatItem = ({ name, lightTheme, pathId, deleteChat }) => {
         }}
       >
         <ListItem style={{ cursor: "pointer" }}>
-          <Link exact to={`/profile/${pathId}`}>
-            <ListItemAvatar>
-              <Avatar
-                alt={name}
-                src={src}
-                style={{ width: "56px", height: "56px" }}
-              />
-            </ListItemAvatar>
-          </Link>
           <ListItemText primary={name} style={{ marginLeft: "30px" }} />
         </ListItem>
       </Link>
@@ -68,6 +68,7 @@ const ChatItem = ({ name, lightTheme, pathId, deleteChat }) => {
           color: lightTheme
             ? theme.palette.light.text
             : theme.palette.dark.text,
+          marginRight: "20px",
         }}
         onClick={onDeleteChat}
       >
