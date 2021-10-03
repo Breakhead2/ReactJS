@@ -39,6 +39,8 @@ export const App = (props) => {
     ];
   }, []);
 
+  // текущее значение темы
+
   const [lightTheme, setLightTheme] = useState(true);
 
   const handleSwitch = useCallback(() => {
@@ -47,11 +49,15 @@ export const App = (props) => {
 
   const [chats, setChats] = useState(chatsArr);
 
+  // получение ID
+
   const [getId, setGetId] = useState(null);
 
   const getCurrentId = useCallback((curentId) => {
     setGetId((getId) => curentId);
   }, []);
+
+  // добавить сообщение
 
   const addMessage = useCallback(
     (getId) => {
@@ -77,6 +83,8 @@ export const App = (props) => {
     },
     [chats, value]
   );
+
+  // Ответ БОТА
 
   useEffect(() => {
     if (getId) {
@@ -109,6 +117,8 @@ export const App = (props) => {
     }
   }, [chats, getId]);
 
+  // удалить чат
+
   const deleteChat = useCallback(
     (pathId) => {
       let newChats = chats.filter((chat) => chat.id !== pathId);
@@ -116,6 +126,8 @@ export const App = (props) => {
     },
     [chats]
   );
+
+  // добавить новый чат
 
   const addChat = useCallback(
     (name) => {
