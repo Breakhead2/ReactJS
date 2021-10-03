@@ -1,0 +1,16 @@
+.box {
+  display: flex;
+}
+.customInput {
+  width: 100%;
+  padding: 0px 10px;
+  box-sizing: border-box;
+}
+.customInput:focus {
+  outline: none;
+  border: none;
+}
+.customInput:active {
+  outline: none;
+  border: none;
+}

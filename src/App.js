@@ -1,57 +1,186 @@
-import { useCallback, useEffect, useState } from "react";
-import { Message } from "./components/Message/Message";
-import { ChatRoom } from "./components/ChatRoom/ChatRoom";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { StartPage } from "./Components/StartPage/StartPage";
+import { Navigator } from "./Components/Navigator/Navigator";
+import { Messanger } from "./Components/Messanger/Messanger";
+import { NotFound } from "./Components/NotFound/NotFound";
+import { Profile } from "./Components/Profile/Profile";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 
 export const App = (props) => {
-  const [messages, setMessages] = useState([]);
-  const [messageText, setMessageText] = useState("");
-  let chatRooms = [
-    { id: 1, name: "Denis" },
-    { id: 2, name: "Ivan" },
-    { id: 3, name: "Maxim" },
-    { id: 4, name: "Anna" },
-    { id: 5, name: "Kate" },
-  ];
+  const [value, setValue] = useState("");
 
-  const handleChange = useCallback((text) => {
-    setMessageText(text);
+  const chatsArr = useMemo(() => {
+    return [
+      {
+        id: "id1",
+        name: "Andrew",
+        messages: [
+          { id: 1, author: "Andrew", text: "Hello, how are you?" },
+          { id: 2, author: "Me", text: "Hi! I'm fine! What about u?" },
+        ],
+      },
+      {
+        id: "id2",
+        name: "Denis",
+        messages: [{ id: 1, author: "Me", text: "Hi! Is today all by plan?" }],
+      },
+      {
+        id: "id3",
+        name: "Maxim",
+        messages: [
+          {
+            id: 1,
+            author: "Maxim",
+            text: "Hello! When did you see Andrew last time? I can't find him...",
+          },
+        ],
+      },
+    ];
   }, []);
 
-  const pushMessage = useCallback(() => {
-    let msg = {
-      id: messages.length + 1,
-      author: "Denis",
-      text: messageText,
-    };
-    setMessages([...messages, msg]);
-    setMessageText("");
-  }, [messages, messageText]);
+  const [lightTheme, setLightTheme] = useState(true);
+
+  const handleSwitch = useCallback(() => {
+    setLightTheme((lightTheme) => !lightTheme);
+  }, []);
+
+  const [chats, setChats] = useState(chatsArr);
+
+  const [getId, setGetId] = useState(null);
+
+  const getCurrentId = useCallback((curentId) => {
+    setGetId((getId) => curentId);
+  }, []);
+
+  const addMessage = useCallback(
+    (getId) => {
+      let chatFinder = chats.find((item) => item.id === getId);
+      let messageItem = {
+        id: chatFinder.messages.length + 1,
+        author: "Me",
+        text: value,
+      };
+      chatFinder.messages = [...chatFinder.messages, messageItem];
+      chatFinder = { ...chats, messages: chatFinder.messages };
+      let newChat = chats.map((chat) => {
+        if (chat.id === chatFinder.id) {
+          var newObj = Object.assign(chat, chatFinder);
+        } else {
+          return chat;
+        }
+        return newObj;
+      });
+
+      setChats([...newChat]);
+      setValue("");
+    },
+    [chats, value]
+  );
 
   useEffect(() => {
-    setTimeout(() => {
-      if (messages.length === 0) {
-        return messages;
-      } else if (messages[messages.length - 1].author === "Denis") {
-        let msg = {
-          id: messages.length + 1,
-          author: "Bot",
-          text: "Привет, " + messages[0].author,
-        };
-        setMessages([...messages, msg]);
+    if (getId) {
+      let chatFinder = chats.find((item) => item.id === getId);
+      if (
+        chatFinder.messages[chatFinder.messages.length - 1].author !==
+        chatFinder.name
+      ) {
+        setTimeout(() => {
+          let messageItem = {
+            id: chatFinder.messages.length + 1,
+            author: chatFinder.name,
+            text: `Glad to see you`,
+          };
+          chatFinder.messages = [...chatFinder.messages, messageItem];
+          chatFinder = { ...chatFinder, messages: chatFinder.messages };
+          let newChatArr = chats.map((chat) => {
+            if (chat.id === chatFinder.id) {
+              var newObj = Object.assign(chat, chatFinder);
+            } else {
+              return chat;
+            }
+            return newObj;
+          });
+          setChats(newChatArr);
+        }, 1500);
+      } else {
+        setChats(chats);
       }
-    }, 2000);
-  }, [messages]);
+    }
+  }, [chats, getId]);
+
+  const deleteChat = useCallback(
+    (pathId) => {
+      let newChats = chats.filter((chat) => chat.id !== pathId);
+      setChats([...newChats]);
+    },
+    [chats]
+  );
+
+  const addChat = useCallback(
+    (name) => {
+      debugger;
+      if (name === "" || name === undefined) {
+        name = "Noname";
+      } else if (name === null) {
+        return setChats([...chats]);
+      }
+      let chatItem = {
+        id: `id${chats.length + 1}`,
+        name: name,
+        messages: [],
+      };
+      setChats([...chats, chatItem]);
+      console.log(chats);
+    },
+    [chats]
+  );
+
+  const handleChange = useCallback((e) => {
+    setValue((value) => e.target.value);
+  }, []);
 
   return (
     <div className="wrapper">
-      <ChatRoom chatRooms={chatRooms} />
-      <Message
-        messages={messages}
-        pushMessage={pushMessage}
-        handleChange={handleChange}
-        messageText={messageText}
+      <Navigator
+        lightTheme={lightTheme}
+        chats={chats}
+        deleteChat={deleteChat}
+        handleSwitch={handleSwitch}
+        addChat={addChat}
       />
+      <div className="content">
+        <Switch>
+          <Route exact path="/">
+            <StartPage lightTheme={lightTheme} />
+          </Route>
+          <Route
+            exact
+            path="/chats/:chatsId"
+            render={() => (
+              <Messanger
+                lightTheme={lightTheme}
+                value={value}
+                handleChange={handleChange}
+                chats={chats}
+                addMessage={addMessage}
+                getCurrentId={getCurrentId}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/profile/:profId"
+            render={() => <Profile lightTheme={lightTheme} chats={chats} />}
+          />
+          <Route
+            path="*"
+            render={() => (
+              <NotFound lightTheme={lightTheme} text="Страница не найдена" />
+            )}
+          />
+        </Switch>
+      </div>
     </div>
   );
 };
