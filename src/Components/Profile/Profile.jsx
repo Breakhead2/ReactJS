@@ -2,9 +2,12 @@ import style from "./Profile.module.css";
 import { useParams } from "react-router-dom";
 import { useTheme, Avatar } from "@material-ui/core";
 import { NotFound } from "../NotFound/NotFound";
+import { useContext } from "react";
+import { MyThemeContext } from "../../App";
 
-export const Profile = ({ lightTheme, chats }) => {
+export const Profile = ({ chats }) => {
   const theme = useTheme();
+  const { lightThemeKey } = useContext(MyThemeContext);
 
   const { profId } = useParams();
 
@@ -13,7 +16,7 @@ export const Profile = ({ lightTheme, chats }) => {
   if (!profileFinder) {
     return (
       <div>
-        <NotFound lightTheme={lightTheme} text="Профиль не найден" />
+        <NotFound text="Профиль не найден" />
       </div>
     );
   }
@@ -23,7 +26,7 @@ export const Profile = ({ lightTheme, chats }) => {
     <div
       className={style.box}
       style={{
-        backgroundColor: lightTheme
+        backgroundColor: lightThemeKey
           ? theme.palette.light.second
           : theme.palette.dark.second,
       }}
@@ -37,7 +40,7 @@ export const Profile = ({ lightTheme, chats }) => {
         <div
           className={style.info}
           style={{
-            color: lightTheme
+            color: lightThemeKey
               ? theme.palette.light.text
               : theme.palette.dark.text,
           }}

@@ -2,16 +2,13 @@ import style from "./Navigator.module.css";
 import { FormControlLabel, Switch, Button } from "@material-ui/core";
 import { Chats } from "../Chats/Chats";
 import { useTheme } from "@material-ui/styles";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
+import { MyThemeContext } from "../../App";
 
-export const Navigator = ({
-  chats,
-  handleSwitch,
-  lightTheme,
-  deleteChat,
-  addChat,
-}) => {
+export const Navigator = ({ chats, handleSwitch, addChat }) => {
   const theme = useTheme();
+
+  const { lightThemeKey } = useContext(MyThemeContext);
 
   const onAddChat = useCallback(() => {
     let name = prompt("Ввведите имя чата");
@@ -22,16 +19,18 @@ export const Navigator = ({
     <div
       className={style.box}
       style={{
-        backgroundColor: lightTheme
+        backgroundColor: lightThemeKey
           ? theme.palette.light.main
           : theme.palette.dark.main,
-        color: lightTheme ? theme.palette.light.text : theme.palette.dark.text,
+        color: lightThemeKey
+          ? theme.palette.light.text
+          : theme.palette.dark.text,
       }}
     >
       <div className={style.tools}>
         <FormControlLabel
           control={<Switch onClick={handleSwitch} />}
-          label={lightTheme ? "Light" : "Dark"}
+          label={lightThemeKey ? "Light" : "Dark"}
           style={{
             paddingLeft: "20px",
             marginLeft: "0px",
@@ -41,10 +40,10 @@ export const Navigator = ({
           variant="outlined"
           size="small"
           style={{
-            backgroundColor: lightTheme
+            backgroundColor: lightThemeKey
               ? theme.palette.light.second
               : theme.palette.dark.second,
-            color: lightTheme
+            color: lightThemeKey
               ? theme.palette.light.text
               : theme.palette.dark.text,
           }}
@@ -54,7 +53,7 @@ export const Navigator = ({
         </Button>
       </div>
 
-      <Chats chats={chats} lightTheme={lightTheme} deleteChat={deleteChat} />
+      <Chats chats={chats} />
     </div>
   );
 };

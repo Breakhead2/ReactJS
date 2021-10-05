@@ -9,31 +9,31 @@ import {
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import { Link } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useContext, useEffect } from "react";
+import { MyThemeContext } from "../../App";
 
-export const Chats = ({ chats, lightTheme, deleteChat }) => {
+export const Chats = ({ chats, deleteChat }) => {
   let chatItems = chats.map((item) => (
-    <ChatItem
-      key={item.id}
-      pathId={item.id}
-      name={item.name}
-      lightTheme={lightTheme}
-      deleteChat={deleteChat}
-    />
+    <ChatItem key={item.id} pathId={item.id} name={item.name} />
   ));
 
   return <List>{chatItems}</List>;
 };
 
-const ChatItem = ({ name, lightTheme, pathId, deleteChat }) => {
+const ChatItem = ({ name, pathId, deleteChat }) => {
+  const { lightThemeKey, fnRemoveChat } = useContext(MyThemeContext);
+
   const theme = useTheme();
 
   let src = `/images/ava_${name}.jpg`;
 
   const onDeleteChat = useCallback(() => {
-    deleteChat(pathId);
-  }, [deleteChat, pathId]);
+    fnRemoveChat(pathId);
+  }, [fnRemoveChat, pathId]);
 
+  useEffect(() => {
+    console.log("render");
+  });
   return (
     <div className={style.box}>
       <Link componentclass="span" exact to={`/profile/${pathId}`}>
@@ -50,7 +50,7 @@ const ChatItem = ({ name, lightTheme, pathId, deleteChat }) => {
         to={`/chats/${pathId}`}
         style={{
           textDecoration: "none",
-          color: lightTheme
+          color: lightThemeKey
             ? theme.palette.light.text
             : theme.palette.dark.text,
         }}
@@ -62,10 +62,10 @@ const ChatItem = ({ name, lightTheme, pathId, deleteChat }) => {
       <Button
         variant="contained"
         style={{
-          backgroundColor: lightTheme
+          backgroundColor: lightThemeKey
             ? theme.palette.light.second
             : theme.palette.dark.second,
-          color: lightTheme
+          color: lightThemeKey
             ? theme.palette.light.text
             : theme.palette.dark.text,
           marginRight: "20px",

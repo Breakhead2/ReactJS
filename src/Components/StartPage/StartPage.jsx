@@ -1,13 +1,17 @@
 import style from "./StartPage.module.css";
 import { useTheme } from "@material-ui/core";
+import { useContext } from "react";
+import { MyThemeContext } from "../../App";
 
-export const StartPage = ({ lightTheme }) => {
+export const StartPage = (props) => {
   const theme = useTheme();
+  const { lightThemeKey } = useContext(MyThemeContext);
+
   return (
     <div
       className={style.box}
       style={{
-        backgroundColor: lightTheme
+        backgroundColor: lightThemeKey
           ? theme.palette.light.second
           : theme.palette.dark.second,
       }}
@@ -15,7 +19,7 @@ export const StartPage = ({ lightTheme }) => {
       <div
         className={style.message}
         style={{
-          backgroundColor: lightTheme
+          backgroundColor: lightThemeKey
             ? theme.palette.light.massageBg
             : theme.palette.dark.massageBg,
         }}

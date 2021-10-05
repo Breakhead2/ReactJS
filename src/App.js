@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  createContext,
+} from "react";
 import { StartPage } from "./Components/StartPage/StartPage";
 import { Navigator } from "./Components/Navigator/Navigator";
 import { Messanger } from "./Components/Messanger/Messanger";
@@ -6,6 +12,12 @@ import { NotFound } from "./Components/NotFound/NotFound";
 import { Profile } from "./Components/Profile/Profile";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
+
+export const MyThemeContext = createContext({
+  lightThemeKey: true,
+  fnGetcurrentId: null,
+  fnRemoveChat: null,
+});
 
 export const App = (props) => {
   const [value, setValue] = useState("");
@@ -153,46 +165,48 @@ export const App = (props) => {
   }, []);
 
   return (
-    <div className="wrapper">
-      <Navigator
-        lightTheme={lightTheme}
-        chats={chats}
-        deleteChat={deleteChat}
-        handleSwitch={handleSwitch}
-        addChat={addChat}
-      />
-      <div className="content">
-        <Switch>
-          <Route exact path="/">
-            <StartPage lightTheme={lightTheme} />
-          </Route>
-          <Route
-            exact
-            path="/chats/:chatsId"
-            render={() => (
-              <Messanger
-                lightTheme={lightTheme}
-                value={value}
-                handleChange={handleChange}
-                chats={chats}
-                addMessage={addMessage}
-                getCurrentId={getCurrentId}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/profile/:profId"
-            render={() => <Profile lightTheme={lightTheme} chats={chats} />}
-          />
-          <Route
-            path="*"
-            render={() => (
-              <NotFound lightTheme={lightTheme} text="Страница не найдена" />
-            )}
-          />
-        </Switch>
+    <MyThemeContext.Provider
+      value={{
+        lightThemeKey: lightTheme,
+        fnGetcurrentId: getCurrentId,
+        fnRemoveChat: deleteChat,
+      }}
+    >
+      <div className="wrapper">
+        <Navigator
+          chats={chats}
+          handleSwitch={handleSwitch}
+          addChat={addChat}
+        />
+        <div className="content">
+          <Switch>
+            <Route exact path="/">
+              <StartPage />
+            </Route>
+            <Route
+              exact
+              path="/chats/:chatsId"
+              render={() => (
+                <Messanger
+                  value={value}
+                  handleChange={handleChange}
+                  chats={chats}
+                  addMessage={addMessage}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/profile/:profId"
+              render={() => <Profile chats={chats} />}
+            />
+            <Route
+              path="*"
+              render={() => <NotFound text="Страница не найдена" />}
+            />
+          </Switch>
+        </div>
       </div>
-    </div>
+    </MyThemeContext.Provider>
   );
 };
