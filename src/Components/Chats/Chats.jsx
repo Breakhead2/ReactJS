@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import { Link } from "react-router-dom";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext } from "react";
 import { MyThemeContext } from "../../App";
 
 export const Chats = ({ chats, deleteChat }) => {
@@ -31,9 +31,6 @@ const ChatItem = ({ name, pathId, deleteChat }) => {
     fnRemoveChat(pathId);
   }, [fnRemoveChat, pathId]);
 
-  useEffect(() => {
-    console.log("render");
-  });
   return (
     <div className={style.box}>
       <Link componentclass="span" exact to={`/profile/${pathId}`}>

@@ -12,6 +12,9 @@ import { NotFound } from "./Components/NotFound/NotFound";
 import { Profile } from "./Components/Profile/Profile";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
+import { Provider } from "react-redux";
+import { store } from "./Components/store";
+import { generatorID } from "./Components/generators/generators";
 
 export const MyThemeContext = createContext({
   lightThemeKey: true,
@@ -25,7 +28,7 @@ export const App = (props) => {
   const chatsArr = useMemo(() => {
     return [
       {
-        id: "id1",
+        id: "1",
         name: "Andrew",
         messages: [
           { id: 1, author: "Andrew", text: "Hello, how are you?" },
@@ -33,12 +36,12 @@ export const App = (props) => {
         ],
       },
       {
-        id: "id2",
+        id: "2",
         name: "Denis",
         messages: [{ id: 1, author: "Me", text: "Hi! Is today all by plan?" }],
       },
       {
-        id: "id3",
+        id: "3",
         name: "Maxim",
         messages: [
           {
@@ -143,19 +146,25 @@ export const App = (props) => {
 
   const addChat = useCallback(
     (name) => {
-      debugger;
       if (name === "" || name === undefined) {
         name = "Noname";
       } else if (name === null) {
         return setChats([...chats]);
       }
+      debugger;
       let chatItem = {
-        id: `id${chats.length + 1}`,
+        id: `${generatorID()}`,
         name: name,
         messages: [],
       };
+      //проверка на уникальность присвоенного id
+      for (let i = 0; i < chats.length; i++) {
+        debugger;
+        if (chats[i].id === chatItem.id) {
+          chatItem.id = `${generatorID()}`;
+        }
+      }
       setChats([...chats, chatItem]);
-      console.log(chats);
     },
     [chats]
   );
@@ -195,11 +204,13 @@ export const App = (props) => {
                 />
               )}
             />
-            <Route
-              exact
-              path="/profile/:profId"
-              render={() => <Profile chats={chats} />}
-            />
+            <Provider store={store}>
+              <Route
+                exact
+                path="/profile/:profId"
+                render={() => <Profile chats={chats} />}
+              />
+            </Provider>
             <Route
               path="*"
               render={() => <NotFound text="Страница не найдена" />}

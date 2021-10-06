@@ -1,13 +1,22 @@
 import style from "./Profile.module.css";
 import { useParams } from "react-router-dom";
-import { useTheme, Avatar } from "@material-ui/core";
+import { useTheme, Avatar, Switch } from "@material-ui/core";
 import { NotFound } from "../NotFound/NotFound";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { MyThemeContext } from "../../App";
+import { useSelector, useDispatch } from "react-redux";
+import { SUBSCRIBE } from "../store/Profile/actionsType";
 
 export const Profile = ({ chats }) => {
   const theme = useTheme();
   const { lightThemeKey } = useContext(MyThemeContext);
+
+  const { subscribe } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const onSub = useCallback(() => {
+    dispatch({ type: SUBSCRIBE });
+  }, [dispatch]);
 
   const { profId } = useParams();
 
@@ -47,6 +56,22 @@ export const Profile = ({ chats }) => {
         >
           <p className={style.myName}>{profileFinder.name}</p>
           <p>Something about me</p>
+        </div>
+        <div className={style.subscribe}>
+          <Switch
+            defaultChecked={subscribe}
+            onClick={onSub}
+            color="secondary"
+          />
+          <p
+            style={{
+              color: lightThemeKey
+                ? theme.palette.light.text
+                : theme.palette.dark.text,
+            }}
+          >
+            {subscribe ? "Отписаться" : "Подписаться"}
+          </p>
         </div>
       </div>
     </div>

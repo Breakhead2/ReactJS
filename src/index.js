@@ -14,8 +14,8 @@ const theme = createTheme({
       massageBg: "#4c91bf",
     },
     dark: {
-      main: "#282e33",
-      second: "#18191d",
+      main: "#384047",
+      second: "#2c2c2f",
       text: "#ffffff",
       massageBg: "#2f343b",
     },
