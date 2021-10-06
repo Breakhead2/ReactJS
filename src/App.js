@@ -6,16 +6,16 @@ import React, {
   createContext,
 } from "react";
 import { PropTypes } from "prop-types";
-import { StartPage } from "./Components/StartPage/StartPage";
-import { Navigator } from "./Components/Navigator/Navigator";
-import { Messanger } from "./Components/Messanger/Messanger";
-import { NotFound } from "./Components/NotFound/NotFound";
-import { Profile } from "./Components/Profile/Profile";
+import { StartPage } from "./components/StartPage/StartPage";
+import { Navigator } from "./components/Navigator/Navigator";
+import { Messanger } from "./components/Messanger/Messanger";
+import { NotFound } from "./components/NotFound/NotFound";
+import { Profile } from "./components/Profile/Profile";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import { Provider } from "react-redux";
-import { store } from "./Components/store";
-import { generatorID } from "./Components/generators/generators";
+import { store } from "./store";
+import { generatorID } from "./components/generators/generators";
 
 export const MyThemeContext = createContext({
   lightThemeKey: true,
@@ -152,7 +152,6 @@ export const App = (props) => {
       } else if (name === null) {
         return setChats([...chats]);
       }
-      debugger;
       let chatItem = {
         id: `${generatorID()}`,
         name: name,
@@ -160,7 +159,6 @@ export const App = (props) => {
       };
       //проверка на уникальность присвоенного id
       for (let i = 0; i < chats.length; i++) {
-        debugger;
         if (chats[i].id === chatItem.id) {
           chatItem.id = `${generatorID()}`;
         }

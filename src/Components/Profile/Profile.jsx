@@ -5,7 +5,7 @@ import { NotFound } from "../NotFound/NotFound";
 import { useCallback, useContext } from "react";
 import { MyThemeContext } from "../../App";
 import { useSelector, useDispatch } from "react-redux";
-import { SUBSCRIBE } from "../store/Profile/actionsType";
+import { SUBSCRIBE } from "../../store/Profile/actionsType";
 
 export const Profile = ({ chats }) => {
   const theme = useTheme();
@@ -58,11 +58,7 @@ export const Profile = ({ chats }) => {
           <p>Something about me</p>
         </div>
         <div className={style.subscribe}>
-          <Switch
-            defaultChecked={subscribe}
-            onClick={onSub}
-            color="secondary"
-          />
+          <Switch checked={subscribe} onClick={onSub} color="secondary" />
           <p
             style={{
               color: lightThemeKey
