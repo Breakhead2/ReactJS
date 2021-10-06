@@ -15,7 +15,7 @@ import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import { generatorID } from "./components/generators/generators";
+import { generatorID } from "./generators/generators";
 
 export const MyThemeContext = createContext({
   lightThemeKey: true,
