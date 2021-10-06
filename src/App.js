@@ -5,6 +5,7 @@ import React, {
   useState,
   createContext,
 } from "react";
+import { PropTypes } from "prop-types";
 import { StartPage } from "./Components/StartPage/StartPage";
 import { Navigator } from "./Components/Navigator/Navigator";
 import { Messanger } from "./Components/Messanger/Messanger";
@@ -220,4 +221,14 @@ export const App = (props) => {
       </div>
     </MyThemeContext.Provider>
   );
+};
+
+//Типизация пропсов компонентов
+
+Navigator.propTypes = {
+  chats: PropTypes.array.isRequired,
+};
+Messanger.propTypes = {
+  value: PropTypes.string.isRequired,
+  chats: PropTypes.array.isRequired,
 };

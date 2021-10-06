@@ -20,7 +20,7 @@ export const Chats = ({ chats, deleteChat }) => {
   return <List>{chatItems}</List>;
 };
 
-const ChatItem = ({ name, pathId, deleteChat }) => {
+const ChatItem = ({ name, pathId }) => {
   const { lightThemeKey, fnRemoveChat } = useContext(MyThemeContext);
 
   const theme = useTheme();
@@ -43,7 +43,7 @@ const ChatItem = ({ name, pathId, deleteChat }) => {
         </ListItemAvatar>
       </Link>
       <Link
-        exact
+        exact="true"
         to={`/chats/${pathId}`}
         style={{
           textDecoration: "none",

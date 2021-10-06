@@ -7,6 +7,7 @@ import { MyThemeContext } from "../../App";
 
 export const Navigator = ({ chats, handleSwitch, addChat }) => {
   const theme = useTheme();
+  console.log(chats, typeof chats);
 
   const { lightThemeKey } = useContext(MyThemeContext);
 
