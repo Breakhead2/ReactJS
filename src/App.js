@@ -1,10 +1,9 @@
 import React from "react";
-// import { PropTypes } from "prop-types";
-import { StartPage } from "./components/StartPage/StartPage";
-import { Navigator } from "./components/Navigator/Navigator";
-import { Messanger } from "./components/Messanger/Messanger";
-import { NotFound } from "./components/NotFound/NotFound";
-import { Profile } from "./components/Profile/Profile";
+import { StartPage } from "./Components/StartPage/StartPage";
+import { Navigator } from "./Components/Navigator/Navigator";
+import { Messanger } from "./Components/Messanger/Messanger";
+import { NotFound } from "./Components/NotFound/NotFound";
+import { Profile } from "./Components/Profile/Profile";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import { Provider } from "react-redux";
@@ -20,7 +19,7 @@ export const App = (props) => {
             <Route exact path="/">
               <StartPage />
             </Route>
-            <Route exact path="/chats/:chatsId" render={() => <Messanger />} />
+            <Route exact path="/chats/:chatsId" component={Messanger} />
             <Route exact path="/profile/:profId" render={() => <Profile />} />
             <Route
               path="*"

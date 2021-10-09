@@ -17,7 +17,6 @@ import { messangerActionRemove } from "../../store/messanger/messangerAction";
 
 export const Chats = (props) => {
   const chats = useSelector(chatSelector, shallowEqual);
-  console.log(chats);
 
   let chatItems = chats.map((item) => (
     <ChatItem key={item.id} pathId={item.id} name={item.name} />
