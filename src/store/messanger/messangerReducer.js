@@ -82,7 +82,7 @@ export const messangerReducer = (state = initialState, action) => {
       };
       let newArrChats = state.chats.map((chat) => {
         if (chat.id === chatFinder.id) {
-          return Object.assign(chat, chatFinder);
+          return chatFinder;
         } else {
           return chat;
         }

@@ -24,16 +24,17 @@ export const MessageForm = ({ chatId }) => {
 
   const onClickBtn = useCallback(() => {
     dispatch(messangerActionNewMessage(chatId));
+    dispatch(messageActionValue(""));
   }, [chatId, dispatch]);
 
-  // const handleKeyDown = useCallback(
-  //   (e) => {
-  //     if (e.key === "Enter") {
-  //       onClickBtn();
-  //     }
-  //   },
-  //   [onClickBtn]
-  // );
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        onClickBtn();
+      }
+    },
+    [onClickBtn]
+  );
 
   useEffect(() => {
     ref.current?.focus();
@@ -55,7 +56,7 @@ export const MessageForm = ({ chatId }) => {
         value={message}
         ref={ref}
         onChange={handleChange}
-        // onKeyDown={handleKeyDown}
+        onKeyDown={handleKeyDown}
       />
       <Button
         variant="outlined"

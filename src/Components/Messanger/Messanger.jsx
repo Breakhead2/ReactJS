@@ -12,7 +12,7 @@ export const Messanger = (props) => {
   const theme = useTheme();
   const lightThemeKey = useSelector(getThemeValue, shallowEqual);
   const chats = useSelector(chatSelector, shallowEqual);
-  console.log(chats);
+
   const { chatsId } = useParams();
 
   let chatFinder = chats.find((item) => item.id === chatsId);
@@ -34,7 +34,7 @@ export const Messanger = (props) => {
           : theme.palette.dark.second,
       }}
     >
-      <MessageList chatId={chatsId} />
+      <MessageList chatFinder={chatFinder} />
       <MessageForm chatId={chatsId} />
     </div>
   );
