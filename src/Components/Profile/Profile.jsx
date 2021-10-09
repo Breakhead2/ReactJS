@@ -5,7 +5,7 @@ import { NotFound } from "../NotFound/NotFound";
 import { useCallback, useContext } from "react";
 import { MyThemeContext } from "../../App";
 import { useSelector, useDispatch } from "react-redux";
-import { SUBSCRIBE } from "../../store/Profile/actionsType";
+import { SUBSCRIBE } from "../../store/Profile/action";
 
 export const Profile = ({ chats }) => {
   const theme = useTheme();

@@ -1,4 +1,4 @@
-import { SUBSCRIBE } from "./actionsType";
+import { SUBSCRIBE } from "./action";
 
 const initialState = {
   subscribe: false,
