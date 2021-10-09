@@ -1,33 +1,39 @@
 import { Button, useTheme } from "@material-ui/core";
-import React, { useCallback, useEffect, useRef, useContext } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import style from "./MessageForm.module.css";
-import { MyThemeContext } from "../../../App";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { getThemeValue } from "../../../store/theme/themeSelector";
+import { messageValue } from "../../../store/messanger/messangerSelector";
+import {
+  messageActionValue,
+  messangerActionNewMessage,
+} from "../../../store/messanger/messangerAction";
 
-export const MessageForm = ({
-  value,
-  addMessage,
-  handleChange,
-  chatFinderId,
-}) => {
+export const MessageForm = ({ chatId }) => {
   const ref = useRef(null);
 
-  const { lightThemeKey, fnGetcurrentId } = useContext(MyThemeContext);
-
+  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
+  const dispatch = useDispatch();
   const theme = useTheme();
 
-  const onClickBtn = useCallback(() => {
-    addMessage(chatFinderId);
-    fnGetcurrentId(chatFinderId);
-  }, [chatFinderId, addMessage, fnGetcurrentId]);
+  const message = useSelector(messageValue, shallowEqual);
 
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === "Enter") {
-        onClickBtn();
-      }
-    },
-    [onClickBtn]
-  );
+  const handleChange = useCallback(() => {
+    dispatch(messageActionValue(ref.current.value));
+  }, [dispatch]);
+
+  const onClickBtn = useCallback(() => {
+    dispatch(messangerActionNewMessage(chatId));
+  }, [chatId, dispatch]);
+
+  // const handleKeyDown = useCallback(
+  //   (e) => {
+  //     if (e.key === "Enter") {
+  //       onClickBtn();
+  //     }
+  //   },
+  //   [onClickBtn]
+  // );
 
   useEffect(() => {
     ref.current?.focus();
@@ -46,10 +52,10 @@ export const MessageForm = ({
             ? theme.palette.light.text
             : theme.palette.dark.text,
         }}
-        value={value}
+        value={message}
         ref={ref}
         onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        // onKeyDown={handleKeyDown}
       />
       <Button
         variant="outlined"

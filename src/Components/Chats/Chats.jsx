@@ -9,10 +9,16 @@ import {
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import { Link } from "react-router-dom";
-import { useCallback, useContext } from "react";
-import { MyThemeContext } from "../../App";
+import { useCallback } from "react";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { getThemeValue } from "../../store/theme/themeSelector";
+import { chatSelector } from "../../store/messanger/messangerSelector";
+import { messangerActionRemove } from "../../store/messanger/messangerAction";
 
-export const Chats = ({ chats, deleteChat }) => {
+export const Chats = (props) => {
+  const chats = useSelector(chatSelector, shallowEqual);
+  console.log(chats);
+
   let chatItems = chats.map((item) => (
     <ChatItem key={item.id} pathId={item.id} name={item.name} />
   ));
@@ -21,15 +27,15 @@ export const Chats = ({ chats, deleteChat }) => {
 };
 
 const ChatItem = ({ name, pathId }) => {
-  const { lightThemeKey, fnRemoveChat } = useContext(MyThemeContext);
-
+  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   let src = `/images/ava_${name}.jpg`;
 
   const onDeleteChat = useCallback(() => {
-    fnRemoveChat(pathId);
-  }, [fnRemoveChat, pathId]);
+    dispatch(messangerActionRemove(pathId));
+  }, [dispatch, pathId]);
 
   return (
     <div className={style.box}>

@@ -1,13 +1,17 @@
 import { useTheme } from "@material-ui/styles";
 import style from "./MessageList.module.css";
-import { useContext } from "react";
-import { MyThemeContext } from "../../../App";
+import { useSelector, shallowEqual } from "react-redux";
+import { getThemeValue } from "../../../store/theme/themeSelector";
+import { chatSelector } from "../../../store/messanger/messangerSelector";
 
-export const MessageList = ({ messages }) => {
+export const MessageList = ({ chatId }) => {
   const theme = useTheme();
-  const { lightThemeKey } = useContext(MyThemeContext);
+  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
+  const chats = useSelector(chatSelector, shallowEqual);
 
-  let messageItems = messages.map((item) => (
+  let chatFind = chats.find((chat) => chat.id === chatId);
+
+  let messageItems = chatFind.messages.map((item) => (
     <MessageItem key={item.id} text={item.text} author={item.author} />
   ));
 
@@ -30,7 +34,7 @@ export const MessageList = ({ messages }) => {
 
 const MessageItem = ({ text, author }) => {
   const theme = useTheme();
-  const { lightThemeKey } = useContext(MyThemeContext);
+  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
   return (
     <div
       className={style.item}

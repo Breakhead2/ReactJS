@@ -1,4 +1,4 @@
-import { SUBSCRIBE } from "./action";
+import { SUBSCRIBE } from "./profileAction";
 
 const initialState = {
   subscribe: false,

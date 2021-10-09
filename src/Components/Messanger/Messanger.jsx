@@ -4,13 +4,15 @@ import { MessageForm } from "./MessageForm/MessageForm";
 import { useTheme } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import { NotFound } from "../NotFound/NotFound";
-import { MyThemeContext } from "../../App";
-import { useContext } from "react";
+import { useSelector, shallowEqual } from "react-redux";
+import { getThemeValue } from "../../store/theme/themeSelector";
+import { chatSelector } from "../../store/messanger/messangerSelector";
 
-export const Messanger = ({ value, handleChange, chats, addMessage }) => {
+export const Messanger = (props) => {
   const theme = useTheme();
-  const { lightThemeKey } = useContext(MyThemeContext);
-
+  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
+  const chats = useSelector(chatSelector, shallowEqual);
+  console.log(chats);
   const { chatsId } = useParams();
 
   let chatFinder = chats.find((item) => item.id === chatsId);
@@ -32,13 +34,8 @@ export const Messanger = ({ value, handleChange, chats, addMessage }) => {
           : theme.palette.dark.second,
       }}
     >
-      <MessageList messages={chatFinder.messages} />
-      <MessageForm
-        chatFinderId={chatFinder.id}
-        value={value}
-        handleChange={handleChange}
-        addMessage={addMessage}
-      />
+      <MessageList chatId={chatsId} />
+      <MessageForm chatId={chatsId} />
     </div>
   );
 };

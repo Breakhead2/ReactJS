@@ -1,11 +1,11 @@
 import style from "./StartPage.module.css";
 import { useTheme } from "@material-ui/core";
-import { useContext } from "react";
-import { MyThemeContext } from "../../App";
+import { useSelector, shallowEqual } from "react-redux";
+import { getThemeValue } from "../../store/theme/themeSelector";
 
 export const StartPage = (props) => {
   const theme = useTheme();
-  const { lightThemeKey } = useContext(MyThemeContext);
+  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
 
   return (
     <div

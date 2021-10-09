@@ -2,19 +2,26 @@ import style from "./Navigator.module.css";
 import { FormControlLabel, Switch, Button } from "@material-ui/core";
 import { Chats } from "../Chats/Chats";
 import { useTheme } from "@material-ui/styles";
-import { useCallback, useContext } from "react";
-import { MyThemeContext } from "../../App";
+import { useCallback } from "react";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { themeAction } from "../../store/theme/themeAction";
+import { getThemeValue } from "../../store/theme/themeSelector";
+import { messangerActionAdd } from "../../store/messanger/messangerAction";
 
-export const Navigator = ({ chats, handleSwitch, addChat }) => {
+export const Navigator = (props) => {
   const theme = useTheme();
-  console.log(chats, typeof chats);
 
-  const { lightThemeKey } = useContext(MyThemeContext);
+  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
+  const dispatch = useDispatch();
+
+  const handleSwitch = useCallback(() => {
+    dispatch(themeAction());
+  }, [dispatch]);
 
   const onAddChat = useCallback(() => {
     let name = prompt("Ввведите имя чата");
-    addChat(name);
-  }, [addChat]);
+    dispatch(messangerActionAdd(name));
+  }, [dispatch]);
 
   return (
     <div
@@ -54,7 +61,7 @@ export const Navigator = ({ chats, handleSwitch, addChat }) => {
         </Button>
       </div>
 
-      <Chats chats={chats} />
+      <Chats />
     </div>
   );
 };

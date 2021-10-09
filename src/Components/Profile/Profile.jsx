@@ -2,20 +2,24 @@ import style from "./Profile.module.css";
 import { useParams } from "react-router-dom";
 import { useTheme, Avatar, Switch } from "@material-ui/core";
 import { NotFound } from "../NotFound/NotFound";
-import { useCallback, useContext } from "react";
-import { MyThemeContext } from "../../App";
-import { useSelector, useDispatch } from "react-redux";
-import { SUBSCRIBE } from "../../store/Profile/action";
+import { useCallback } from "react";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { profileAction } from "../../store/profile/profileAction";
+import { profileSelector } from "../../store/profile/profileSelector";
+import { getThemeValue } from "../../store/theme/themeSelector";
+import { chatSelector } from "../../store/messanger/messangerSelector";
 
-export const Profile = ({ chats }) => {
+export const Profile = (props) => {
   const theme = useTheme();
-  const { lightThemeKey } = useContext(MyThemeContext);
+  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
 
-  const { subscribe } = useSelector((state) => state);
+  const chats = useSelector(chatSelector, shallowEqual);
+
+  const subscribe = useSelector(profileSelector, shallowEqual);
   const dispatch = useDispatch();
 
   const onSub = useCallback(() => {
-    dispatch({ type: SUBSCRIBE });
+    dispatch(profileAction());
   }, [dispatch]);
 
   const { profId } = useParams();
