@@ -4,7 +4,6 @@ import {
   ADD_CHAT,
   ADD_NEW_MESSAGE,
   MESSAGE_VALUE,
-  BOT_ANSWEAR,
 } from "../messanger/messangerAction";
 
 const initialState = {
@@ -89,33 +88,6 @@ export const messangerReducer = (state = initialState, action) => {
         ...state,
         chats: [...newArrChats],
       };
-    case BOT_ANSWEAR: {
-      let chatFinder = state.chats.find((item) => item.id === action.chatId);
-      if (chatFinder.messages[chatFinder.messages.length - 1].author === "Me") {
-        let messageItem = {
-          id: chatFinder.messages.length + 1,
-          author: `${chatFinder.name}`,
-          text: `Sorry, i'm not by computer. I'll answear you a little bit later :)`,
-        };
-        chatFinder = {
-          ...chatFinder,
-          messages: [...chatFinder.messages, messageItem],
-        };
-        let newArrChats = state.chats.map((chat) => {
-          if (chat.id === chatFinder.id) {
-            return chatFinder;
-          } else {
-            return chat;
-          }
-        });
-        return {
-          ...state,
-          chats: [...newArrChats],
-        };
-      } else {
-        return state;
-      }
-    }
     default:
       return state;
   }
