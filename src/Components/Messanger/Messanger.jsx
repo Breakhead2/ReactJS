@@ -4,17 +4,27 @@ import { MessageForm } from "./MessageForm/MessageForm";
 import { useTheme } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import { NotFound } from "../NotFound/NotFound";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { getThemeValue } from "../../store/theme/themeSelector";
-import { chatSelector } from "../../store/messanger/messangerSelector";
+import { messagerSelector } from "../../store/messanger/messangerSelector";
+import { messageActionNewChat } from "../../store/messanger/messangerAction";
+import { chatSelector } from "../../store/chat/chatSelector";
+import { useCallback } from "react";
 
 export const Messanger = (props) => {
   const theme = useTheme();
   const lightThemeKey = useSelector(getThemeValue, shallowEqual);
+  const messages = useSelector(messagerSelector, shallowEqual);
   const chats = useSelector(chatSelector, shallowEqual);
   const { chatsId } = useParams();
+  const dispatch = useDispatch();
 
-  let chatFinder = chats.find((item) => item.id === chatsId);
+  const newMessageList = useCallback(() => {
+    dispatch(messageActionNewChat(chats[chats.length - 1].id));
+  }, [dispatch, chats]);
+
+  let chatFinder =
+    messages.find((item) => item.id === chatsId) || newMessageList();
 
   if (!chatFinder) {
     return (

@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { themeAction } from "../../store/theme/themeAction";
 import { getThemeValue } from "../../store/theme/themeSelector";
-import { messangerActionAdd } from "../../store/messanger/messangerAction";
+import { chatAddAction } from "../../store/chat/chatAction";
 
 export const Navigator = (props) => {
   const theme = useTheme();
@@ -20,7 +20,7 @@ export const Navigator = (props) => {
 
   const onAddChat = useCallback(() => {
     let name = prompt("Ввведите имя чата");
-    dispatch(messangerActionAdd(name));
+    dispatch(chatAddAction(name));
   }, [dispatch]);
 
   return (

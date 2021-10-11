@@ -20,7 +20,7 @@ export const App = (props) => {
               <StartPage />
             </Route>
             <Route exact path="/chats/:chatsId" component={Messanger} />
-            <Route exact path="/profile/:profId" render={() => <Profile />} />
+            <Route exact path="/profile/:profId" component={Profile} />
             <Route
               path="*"
               render={() => <NotFound text="Страница не найдена" />}

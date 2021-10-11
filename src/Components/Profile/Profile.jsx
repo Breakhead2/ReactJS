@@ -7,7 +7,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { profileAction } from "../../store/profile/profileAction";
 import { profileSelector } from "../../store/profile/profileSelector";
 import { getThemeValue } from "../../store/theme/themeSelector";
-import { chatSelector } from "../../store/messanger/messangerSelector";
+import { chatSelector } from "../../store/chat/chatSelector";
 
 export const Profile = (props) => {
   const theme = useTheme();
@@ -33,8 +33,7 @@ export const Profile = (props) => {
       </div>
     );
   }
-
-  let src = `/images/ava_${profileFinder.name}.jpg`;
+  let src = `/images/ava_${profileFinder.chatName}.jpg`;
   return (
     <div
       className={style.box}
@@ -46,7 +45,7 @@ export const Profile = (props) => {
     >
       <div className={style.aboutMe}>
         <Avatar
-          alt={profileFinder.name}
+          alt={profileFinder.chatName}
           src={src}
           style={{ width: "80px", height: "80px" }}
         />
@@ -58,7 +57,7 @@ export const Profile = (props) => {
               : theme.palette.dark.text,
           }}
         >
-          <p className={style.myName}>{profileFinder.name}</p>
+          <p className={style.myName}>{profileFinder.chatName}</p>
           <p>Something about me</p>
         </div>
         <div className={style.subscribe}>

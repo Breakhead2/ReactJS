@@ -12,14 +12,14 @@ import { Link } from "react-router-dom";
 import { useCallback } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { getThemeValue } from "../../store/theme/themeSelector";
-import { chatSelector } from "../../store/messanger/messangerSelector";
-import { messangerActionRemove } from "../../store/messanger/messangerAction";
+import { chatSelector } from "../../store/chat/chatSelector";
+import { chatRemoveAction } from "../../store/chat/chatAction";
 
 export const Chats = (props) => {
   const chats = useSelector(chatSelector, shallowEqual);
 
   let chatItems = chats.map((item) => (
-    <ChatItem key={item.id} pathId={item.id} name={item.name} />
+    <ChatItem key={item.id} pathId={item.id} name={item.chatName} />
   ));
 
   return <List>{chatItems}</List>;
@@ -33,7 +33,7 @@ const ChatItem = ({ name, pathId }) => {
   let src = `/images/ava_${name}.jpg`;
 
   const onDeleteChat = useCallback(() => {
-    dispatch(messangerActionRemove(pathId));
+    dispatch(chatRemoveAction(pathId));
   }, [dispatch, pathId]);
 
   return (

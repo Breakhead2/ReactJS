@@ -1,26 +1,21 @@
-import { generatorID } from "../../generators/generators";
 import {
-  REMOVE_CHAT,
-  ADD_CHAT,
   ADD_NEW_MESSAGE,
   MESSAGE_VALUE,
-} from "../messanger/messangerAction";
+  ADD_NEW_MESSAGE_LIST,
+} from "./messangerAction";
 
 const initialState = {
-  chats: [
+  messageList: [
     {
       id: "1",
-      name: "Andrew",
       messages: [{ id: 1, author: "Andrew", text: "Hello, how are you?" }],
     },
     {
       id: "2",
-      name: "Denis",
       messages: [{ id: 1, author: "Denis", text: "Hi! Is today all by plan?" }],
     },
     {
       id: "3",
-      name: "Maxim",
       messages: [
         {
           id: 1,
@@ -35,39 +30,25 @@ const initialState = {
 
 export const messangerReducer = (state = initialState, action) => {
   switch (action?.type) {
-    case ADD_CHAT:
-      if (action.name === "" || action.name === undefined) {
-        action.name = "Noname";
-      } else if (action.name === null) {
-        return state;
-      }
-      let chatItem = {
-        id: `${generatorID()}`,
-        name: action.name,
+    case ADD_NEW_MESSAGE_LIST:
+      let newListItem = {
+        id: action.id,
         messages: [],
       };
-      for (let i = 0; i < state.chats.length; i++) {
-        if (state.chats[i].id === chatItem.id) {
-          chatItem.id = `${generatorID()}`;
-        }
-      }
       return {
         ...state,
-        chats: [...state.chats, chatItem],
+        messageList: [...state.messageList, newListItem],
       };
-    case REMOVE_CHAT:
-      let newChats = state.chats.filter((chat) => chat.id !== action.id);
-      return {
-        ...state,
-        chats: [...newChats],
-      };
+
     case MESSAGE_VALUE:
       return {
         ...state,
         messageText: action.value,
       };
     case ADD_NEW_MESSAGE:
-      let chatFinder = state.chats.find((item) => item.id === action.chatId);
+      let chatFinder = state.messageList.find(
+        (item) => item.id === action.chatId
+      );
       let messageItem = {
         id: chatFinder.messages.length + 1,
         author: "Me",
@@ -77,7 +58,7 @@ export const messangerReducer = (state = initialState, action) => {
         ...chatFinder,
         messages: [...chatFinder.messages, messageItem],
       };
-      let newArrChats = state.chats.map((chat) => {
+      let newArrChats = state.messageList.map((chat) => {
         if (chat.id === chatFinder.id) {
           return chatFinder;
         } else {
@@ -86,7 +67,7 @@ export const messangerReducer = (state = initialState, action) => {
       });
       return {
         ...state,
-        chats: [...newArrChats],
+        messageList: newArrChats,
       };
     default:
       return state;

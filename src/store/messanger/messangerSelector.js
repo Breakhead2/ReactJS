@@ -1,5 +1,5 @@
-export const chatSelector = (state) => {
-  return state.messanger.chats;
+export const messagerSelector = (state) => {
+  return state.messanger.messageList;
 };
 
 export const messageValue = (state) => {
