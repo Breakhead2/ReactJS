@@ -4,15 +4,28 @@ import { themeReducer } from "./theme/themeReducer";
 import { messangerReducer } from "./messanger/messangerReducer";
 import { chatReducer } from "./chat/chatReducer";
 import thunk from "redux-thunk";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const rootReducer = combineReducers({
+  profile: profileReducer,
+  chat: chatReducer,
+  messanger: messangerReducer,
+  theme: themeReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const store = createStore(
-  combineReducers({
-    profile: profileReducer,
-    chat: chatReducer,
-    messanger: messangerReducer,
-    theme: themeReducer,
-  }),
+  persistedReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
+
+export const persistor = persistStore(store);

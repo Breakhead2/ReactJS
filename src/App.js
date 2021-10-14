@@ -7,27 +7,31 @@ import { Profile } from "./Components/Profile/Profile";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store, persistor } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+import { CircularProgress } from "@material-ui/core";
 
 export const App = (props) => {
   return (
     <Provider store={store}>
-      <div className="wrapper">
-        <Navigator />
-        <div className="content">
-          <Switch>
-            <Route exact path="/">
-              <StartPage />
-            </Route>
-            <Route exact path="/chats/:chatsId" component={Messanger} />
-            <Route exact path="/profile/:profId" component={Profile} />
-            <Route
-              path="*"
-              render={() => <NotFound text="Страница не найдена" />}
-            />
-          </Switch>
+      <PersistGate persistor={persistor} loading={<CircularProgress />}>
+        <div className="wrapper">
+          <Navigator />
+          <div className="content">
+            <Switch>
+              <Route exact path="/">
+                <StartPage />
+              </Route>
+              <Route exact path="/chats/:chatsId" component={Messanger} />
+              <Route exact path="/profile/:profId" component={Profile} />
+              <Route
+                path="*"
+                render={() => <NotFound text="Страница не найдена" />}
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </PersistGate>
     </Provider>
   );
 };

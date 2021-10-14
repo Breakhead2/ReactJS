@@ -10,6 +10,10 @@ import { messagerSelector } from "../../store/messanger/messangerSelector";
 import { messageActionNewChat } from "../../store/messanger/messangerAction";
 import { chatSelector } from "../../store/chat/chatSelector";
 import { useCallback } from "react";
+import {
+  messageActionValue,
+  addMessageWithThunk,
+} from "../../store/messanger/messangerAction";
 
 export const Messanger = (props) => {
   const theme = useTheme();
@@ -22,6 +26,20 @@ export const Messanger = (props) => {
   const newMessageList = useCallback(() => {
     dispatch(messageActionNewChat(chats[chats.length - 1].id));
   }, [dispatch, chats]);
+
+  const onClickBtn = useCallback(() => {
+    dispatch(addMessageWithThunk(chatsId));
+    dispatch(messageActionValue(""));
+  }, [chatsId, dispatch]);
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        onClickBtn();
+      }
+    },
+    [onClickBtn]
+  );
 
   let chatFinder =
     messages.find((item) => item.id === chatsId) || newMessageList();
@@ -44,7 +62,7 @@ export const Messanger = (props) => {
       }}
     >
       <MessageList chatFinder={chatFinder} />
-      <MessageForm chatId={chatsId} />
+      <MessageForm onClickBtn={onClickBtn} handleKeyDown={handleKeyDown} />
     </div>
   );
 };

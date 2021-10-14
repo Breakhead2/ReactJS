@@ -4,12 +4,9 @@ import style from "./MessageForm.module.css";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { getThemeValue } from "../../../store/theme/themeSelector";
 import { messageValue } from "../../../store/messanger/messangerSelector";
-import {
-  messageActionValue,
-  addMessageWithThunk,
-} from "../../../store/messanger/messangerAction";
+import { messageActionValue } from "../../../store/messanger/messangerAction";
 
-export const MessageForm = ({ chatId }) => {
+export const MessageForm = ({ onClickBtn, handleKeyDown }) => {
   const ref = useRef(null);
 
   const lightThemeKey = useSelector(getThemeValue, shallowEqual);
@@ -21,20 +18,6 @@ export const MessageForm = ({ chatId }) => {
   const handleChange = useCallback(() => {
     dispatch(messageActionValue(ref.current.value));
   }, [dispatch]);
-
-  const onClickBtn = useCallback(() => {
-    dispatch(addMessageWithThunk(chatId));
-    dispatch(messageActionValue(""));
-  }, [chatId, dispatch]);
-
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === "Enter") {
-        onClickBtn();
-      }
-    },
-    [onClickBtn]
-  );
 
   useEffect(() => {
     ref.current?.focus();
