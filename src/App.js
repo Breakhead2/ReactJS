@@ -1,5 +1,4 @@
 import React from "react";
-import { StartPage } from "./Components/StartPage/StartPage";
 import { Navigator } from "./Components/Navigator/Navigator";
 import { Messanger } from "./Components/Messanger/Messanger";
 import { NotFound } from "./Components/NotFound/NotFound";
@@ -20,7 +19,7 @@ export const App = (props) => {
           <div className="content">
             <Switch>
               <Route exact path="/">
-                <StartPage />
+                <NotFound text="Выберите чат" />
               </Route>
               <Route exact path="/chats/:chatsId" component={Messanger} />
               <Route exact path="/profile/:profId" component={Profile} />
