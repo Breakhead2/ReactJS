@@ -6,7 +6,7 @@ import { getThemeValue } from "../../../store/theme/themeSelector";
 import { messageValue } from "../../../store/messanger/messangerSelector";
 import {
   messageActionValue,
-  messangerActionNewMessage,
+  addMessageWithThunk,
 } from "../../../store/messanger/messangerAction";
 
 export const MessageForm = ({ chatId }) => {
@@ -23,7 +23,7 @@ export const MessageForm = ({ chatId }) => {
   }, [dispatch]);
 
   const onClickBtn = useCallback(() => {
-    dispatch(messangerActionNewMessage(chatId));
+    dispatch(addMessageWithThunk(chatId));
     dispatch(messageActionValue(""));
   }, [chatId, dispatch]);
 

@@ -51,8 +51,8 @@ export const messangerReducer = (state = initialState, action) => {
       );
       let messageItem = {
         id: chatFinder.messages.length + 1,
-        author: "Me",
-        text: state.messageText,
+        author: action.author,
+        text: action.message || state.messageText,
       };
       chatFinder = {
         ...chatFinder,
