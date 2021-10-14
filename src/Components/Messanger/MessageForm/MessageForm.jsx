@@ -2,14 +2,12 @@ import { Button, useTheme } from "@material-ui/core";
 import React, { useCallback, useEffect, useRef } from "react";
 import style from "./MessageForm.module.css";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getThemeValue } from "../../../store/theme/themeSelector";
 import { messageValue } from "../../../store/messanger/messangerSelector";
 import { messageActionValue } from "../../../store/messanger/messangerAction";
 
-export const MessageForm = ({ onClickBtn, handleKeyDown }) => {
+export const MessageForm = ({ onClickBtn, handleKeyDown, lightThemeKey }) => {
   const ref = useRef(null);
 
-  const lightThemeKey = useSelector(getThemeValue, shallowEqual);
   const dispatch = useDispatch();
   const theme = useTheme();
 

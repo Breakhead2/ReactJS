@@ -61,8 +61,12 @@ export const Messanger = (props) => {
           : theme.palette.dark.second,
       }}
     >
-      <MessageList chatFinder={chatFinder} />
-      <MessageForm onClickBtn={onClickBtn} handleKeyDown={handleKeyDown} />
+      <MessageList chatFinder={chatFinder} lightThemeKey={lightThemeKey} />
+      <MessageForm
+        onClickBtn={onClickBtn}
+        handleKeyDown={handleKeyDown}
+        lightThemeKey={lightThemeKey}
+      />
     </div>
   );
 };
