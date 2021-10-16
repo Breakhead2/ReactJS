@@ -2,6 +2,7 @@ import style from "./NotFound.module.css";
 import { useTheme } from "@material-ui/core";
 import { useSelector, shallowEqual } from "react-redux";
 import { getThemeValue } from "../../store/theme/themeSelector";
+import { Link } from "react-router-dom";
 
 export const NotFound = ({ text }) => {
   const theme = useTheme();
@@ -24,6 +25,19 @@ export const NotFound = ({ text }) => {
         }}
       >
         {text}
+      </div>
+      <div
+        className={style.message}
+        style={{
+          backgroundColor: lightThemeKey
+            ? theme.palette.light.massageBg
+            : theme.palette.dark.massageBg,
+          marginTop: "15px",
+        }}
+      >
+        <Link to="/photos" style={{ textDecoration: "none", color: "white" }}>
+          Или посмотрите на чудесных котят ^^
+        </Link>
       </div>
     </div>
   );

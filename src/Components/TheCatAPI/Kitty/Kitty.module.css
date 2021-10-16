@@ -1,13 +1,11 @@
 .box {
-  flex: 1;
-  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.message {
-  padding: 5px 10px;
-  border-radius: 20px;
-  color: #ffffff;
+.box img {
+  width: 400px;
+  height: 400px;
+  margin-bottom: 20px;
 }

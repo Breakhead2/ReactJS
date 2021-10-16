@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import { CircularProgress } from "@material-ui/core";
+import { TheCatAPI } from "./Components/TheCatAPI/TheCatAPI";
 
 export const App = (props) => {
   return (
@@ -23,6 +24,7 @@ export const App = (props) => {
               </Route>
               <Route exact path="/chats/:chatsId" component={Messanger} />
               <Route exact path="/profile/:profId" component={Profile} />
+              <Route exact path="/photos" component={TheCatAPI} />
               <Route
                 path="*"
                 render={() => <NotFound text="Страница не найдена" />}

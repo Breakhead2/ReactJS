@@ -1,13 +1,11 @@
 .box {
   flex: 1;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
   height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.message {
-  padding: 5px 10px;
-  border-radius: 20px;
-  color: #ffffff;
+  padding: 20px;
 }
