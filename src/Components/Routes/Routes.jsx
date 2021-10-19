@@ -1,34 +1,54 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Switch } from "react-router-dom";
 import { NotFound } from "../NotFound/NotFound";
-import { Chats } from "../Chats/Chats";
-import { Messanger } from "./Components/Messanger/Messanger";
-import { Profile } from "./Components/Profile/Profile";
-import { TheCatAPI } from "./Components/TheCatAPI/TheCatAPI";
-import { Signup } from "./Components/Signup/Signup";
-import { Login } from "./Components/Login/Login";
+import { Messanger } from "../Messanger/Messanger";
+import { Profile } from "../Profile/Profile";
+import { TheCatAPI } from "../TheCatAPI/TheCatAPI";
+import { Signup } from "../Signup/Signup";
+import { Login } from "../Login/Login";
+import { auth } from "../../services/firebase";
+import { PublicRoute } from "../../hocs/PublicRoute";
+import { PrivateRoute } from "../../hocs/PrivateRoute";
 
 export const Routes = () => {
+  const [authed, setAuthed] = useState(false);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setAuthed(true);
+      } else {
+        setAuthed(false);
+      }
+    });
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <NotFound text="Чтобы перейти к чатам войдите в систему и выберите CHATS" />
-        </Route>
-        <Route exact path="/chats">
-          <NotFound text="Выберите чат" />
-          <Chats />
-        </Route>
-        <Route exact path="/chats/:chatsId" component={Messanger} />
-        <Route exact path="/profile/:profId" component={Profile} />
-        <Route exact path="/photos" component={TheCatAPI} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/login" component={Login} />
-        <Route
-          path="*"
-          render={() => <NotFound text="Страница не найдена" />}
-        />
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <PublicRoute authenticated={authed} exact path="/">
+        <NotFound text="Чтобы перейти к чатам войдите в систему" />
+      </PublicRoute>
+      <PrivateRoute authenticated={authed} exact path="/chats">
+        <NotFound text="Выберите чат" />
+      </PrivateRoute>
+      <PrivateRoute authenticated={authed} exact path="/chats/:chatsId">
+        <Messanger />
+      </PrivateRoute>
+      <PrivateRoute authenticated={authed} exact path="/profile/:profId">
+        <Profile />
+      </PrivateRoute>
+      <PrivateRoute authenticated={authed} exact path="/photos">
+        <TheCatAPI />
+      </PrivateRoute>
+      <PublicRoute authenticated={authed} exact path="/signup">
+        <Signup />
+      </PublicRoute>
+      <PublicRoute authenticated={authed} exact path="/login">
+        <Login />
+      </PublicRoute>
+      <PublicRoute authenticated={authed} path="*">
+        <NotFound text="Страница не найдена" />
+      </PublicRoute>
+    </Switch>
   );
 };
