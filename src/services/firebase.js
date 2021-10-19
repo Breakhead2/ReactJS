@@ -1,6 +1,6 @@
 import firebase from "firebase";
 
-const firebaseConfig = {
+const config = {
   apiKey: "AIzaSyC3zqw-3e6tawqxT9CdVF1S2Zea0-hv0qA",
   authDomain: "messanger-2076d.firebaseapp.com",
   databaseURL: "https://messanger-2076d-default-rtdb.firebaseio.com",
@@ -10,4 +10,6 @@ const firebaseConfig = {
   appId: "1:27123285768:web:f11375ac472237e512f6bd",
 };
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(config);
+
+export const auth = firebase.auth();

@@ -21,6 +21,7 @@ export const NotFound = ({ text }) => {
           backgroundColor: lightThemeKey
             ? theme.palette.light.massageBg
             : theme.palette.dark.massageBg,
+          color: theme.palette.dark.text,
         }}
       >
         {text}

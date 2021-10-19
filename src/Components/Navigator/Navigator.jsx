@@ -44,7 +44,9 @@ export const Navigator = (props) => {
           }}
         >
           <svg
-            fill="#fff"
+            fill={
+              lightThemeKey ? theme.palette.light.text : theme.palette.dark.text
+            }
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             width="24px"

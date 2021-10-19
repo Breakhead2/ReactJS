@@ -1,0 +1,14 @@
+.box {
+  flex: 1;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
+}
+.avatar {
+  width: 56px;
+  height: 56px;
+}
