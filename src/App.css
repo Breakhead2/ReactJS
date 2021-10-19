@@ -8,11 +8,14 @@
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: 0.00938em;
-  max-width: 1200px;
+  max-width: 1300px;
   display: flex;
   margin: 20px auto;
   box-sizing: border-box;
 }
 .content {
-  flex: 2;
+  flex: 1.5;
+}
+.left_column {
+  flex: 1;
 }

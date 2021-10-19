@@ -1,4 +1,4 @@
-import style from "../Chats.module.css";
+import style from "./ChatItem.module.css";
 import {
   ListItem,
   Avatar,

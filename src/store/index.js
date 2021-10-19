@@ -11,7 +11,7 @@ import { persistReducer, persistStore } from "redux-persist";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const persistConfig = {
-  key: "root1",
+  key: "root2",
   storage,
 };
 
