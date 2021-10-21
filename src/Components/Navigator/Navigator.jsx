@@ -1,15 +1,32 @@
 import style from "./Navigator.module.css";
-import { FormControlLabel, Switch } from "@material-ui/core";
+import { FormControlLabel, Switch, Button } from "@material-ui/core";
 import { Chats } from "../Chats/Chats";
 import { useTheme } from "@material-ui/styles";
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { themeAction } from "../../store/theme/themeAction";
 import { getThemeValue } from "../../store/theme/themeSelector";
 import { Link, Route, Switch as RouterSwitch } from "react-router-dom";
+import { auth } from "../../services/firebase";
 
 export const Navigator = (props) => {
   const theme = useTheme();
+
+  const [show, setShow] = useState(true);
+
+  const signOut = useCallback(() => {
+    auth.signOut();
+  }, []);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setShow(false);
+      } else {
+        setShow(true);
+      }
+    });
+  }, []);
 
   const lightThemeKey = useSelector(getThemeValue, shallowEqual);
   const dispatch = useDispatch();
@@ -77,20 +94,39 @@ export const Navigator = (props) => {
         >
           Chats
         </Link>
-        <Link
-          to="/login"
-          className={style.regBtn}
-          style={{
-            backgroundColor: lightThemeKey
-              ? theme.palette.light.second
-              : theme.palette.dark.second,
-            color: lightThemeKey
-              ? theme.palette.light.text
-              : theme.palette.dark.text,
-          }}
-        >
-          Login
-        </Link>
+        {!show && (
+          <Button
+            variant="contained"
+            size="small"
+            style={{
+              backgroundColor: lightThemeKey
+                ? theme.palette.light.second
+                : theme.palette.dark.second,
+              color: lightThemeKey
+                ? theme.palette.light.text
+                : theme.palette.dark.text,
+            }}
+            onClick={signOut}
+          >
+            Sign Out
+          </Button>
+        )}
+        {show && (
+          <Link
+            to="/login"
+            className={style.regBtn}
+            style={{
+              backgroundColor: lightThemeKey
+                ? theme.palette.light.second
+                : theme.palette.dark.second,
+              color: lightThemeKey
+                ? theme.palette.light.text
+                : theme.palette.dark.text,
+            }}
+          >
+            Login
+          </Link>
+        )}
         <Link
           to="/signup"
           className={style.regBtn}

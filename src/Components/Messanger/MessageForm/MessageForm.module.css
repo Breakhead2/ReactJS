@@ -1,5 +1,6 @@
 .box {
   display: flex;
+  min-height: 5vh;
 }
 .customInput {
   width: 100%;

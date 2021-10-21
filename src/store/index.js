@@ -4,6 +4,7 @@ import { themeReducer } from "./theme/themeReducer";
 import { messangerReducer } from "./messanger/messangerReducer";
 import { chatReducer } from "./chat/chatReducer";
 import { photosReducer } from "./photos/photosReducer";
+import { authReducer } from "./authentication/authReducer";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   messanger: messangerReducer,
   theme: themeReducer,
   photos: photosReducer,
+  authentication: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
