@@ -14,7 +14,9 @@ import { chatRemoveAction } from "../../../store/chat/chatAction";
 
 export const ChatItem = ({ name, pathId, lightThemeKey }) => {
   const theme = useTheme();
+
   const dispatch = useDispatch();
+
   const onDeleteChat = useCallback(() => {
     dispatch(chatRemoveAction(pathId));
   }, [dispatch, pathId]);
@@ -48,6 +50,7 @@ export const ChatItem = ({ name, pathId, lightThemeKey }) => {
       </Link>
       <Button
         variant="contained"
+        data-testId="chatItem_test_delete"
         style={{
           backgroundColor: lightThemeKey
             ? theme.palette.light.second

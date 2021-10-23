@@ -10,7 +10,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import * as React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link /*useHistory */ } from "react-router-dom";
 import { useTheme } from "@material-ui/core";
 import { useSelector, shallowEqual } from "react-redux";
 import { getThemeValue } from "../../store/theme/themeSelector";
@@ -20,7 +20,7 @@ export const Login = () => {
   const theme = useTheme();
   const lightThemeKey = useSelector(getThemeValue, shallowEqual);
 
-  const { push } = useHistory();
+  // const { push } = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -39,7 +39,7 @@ export const Login = () => {
 
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      push("/chats");
+      // push("/chats");
     } catch (error) {
       setError(error.message);
     }
@@ -140,6 +140,7 @@ export const Login = () => {
             )}
             <Button
               type="submit"
+              data-testId="btn_submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
