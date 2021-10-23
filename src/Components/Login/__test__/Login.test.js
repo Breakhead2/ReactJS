@@ -5,6 +5,7 @@ import { Login, handleSubmit } from "../Login";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@material-ui/core";
 import { theme } from "../../../index";
+import React from "react";
 
 describe("Тестирование компонента Login", () => {
   test("отработка функции onSubmit", () => {
