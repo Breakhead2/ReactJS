@@ -1,5 +1,4 @@
 import style from "./Login.module.css";
-import { useState } from "react";
 import {
   Button,
   CssBaseline,
@@ -12,38 +11,39 @@ import {
 import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useTheme } from "@material-ui/core";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import {
+  getPass,
+  getEmail,
+  LoginWithFirebase,
+} from "../../store/authentication/authAction";
+import { authValue, isError } from "../../store/authentication/authSelector";
 import { getThemeValue } from "../../store/theme/themeSelector";
-import { auth } from "../../services/firebase";
 
 export const Login = () => {
   const theme = useTheme();
   const lightThemeKey = useSelector(getThemeValue, shallowEqual);
 
   const { push } = useHistory();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
+
+  const auth = useSelector(authValue, shallowEqual);
 
   const handlePassChange = (e) => {
-    setPassword(e.target.value);
+    dispatch(getPass(e.target.value));
   };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    dispatch(getEmail(e.target.value));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      push("/chats");
-    } catch (error) {
-      setError(error.message);
-    }
+    dispatch(LoginWithFirebase("login"));
+    auth ? push("/chats") : push("/login");
   };
+  const error = useSelector(isError, shallowEqual);
 
   return (
     <div
@@ -127,17 +127,15 @@ export const Login = () => {
               autoComplete="current-password"
               onChange={handlePassChange}
             />
-            {error && (
-              <p
-                style={{
-                  color: lightThemeKey
-                    ? theme.palette.light.text
-                    : theme.palette.dark.text,
-                }}
-              >
-                {error}
-              </p>
-            )}
+            <p
+              style={{
+                color: lightThemeKey
+                  ? theme.palette.light.text
+                  : theme.palette.dark.text,
+              }}
+            >
+              {error.status ? error.message : null}
+            </p>
             <Button
               type="submit"
               fullWidth

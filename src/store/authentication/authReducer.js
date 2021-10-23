@@ -1,4 +1,4 @@
-import { AUTH, ERROR, USER_DATA } from "./authAction";
+import { AUTH, ERROR, USER_EMAIL, USER_PASSWORD } from "./authAction";
 
 const initState = {
   auth: false,
@@ -25,11 +25,15 @@ export const authReducer = (state = initState, action) => {
           message: action.message,
         },
       };
-    case USER_DATA:
+    case USER_EMAIL:
       return {
         ...state,
         email: action.email,
-        pass: action.pass,
+      };
+    case USER_PASSWORD:
+      return {
+        ...state,
+        password: action.password,
       };
     default:
       return state;
