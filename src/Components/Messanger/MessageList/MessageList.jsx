@@ -2,7 +2,6 @@ import { useTheme } from "@material-ui/styles";
 import style from "./MessageList.module.css";
 
 export const MessageList = ({ chatFinder, lightThemeKey }) => {
-  debugger;
   const theme = useTheme();
 
   let messageItems = chatFinder.messages.map((item) => (

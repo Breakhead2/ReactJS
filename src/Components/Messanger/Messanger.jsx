@@ -7,11 +7,11 @@ import { NotFound } from "../NotFound/NotFound";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { getThemeValue } from "../../store/theme/themeSelector";
 import { useCallback, useEffect } from "react";
-import { refMessages } from "../../services/firebase";
 import { messagerSelector } from "../../store/messanger/messangerSelector";
 import {
   initMessageFromFirebase,
   messageActionNewChat,
+  addMessageWithFirebase,
   addMessageWithThunk,
   messageActionValue,
 } from "../../store/messanger/messangerAction";
@@ -30,15 +30,6 @@ export const Messanger = (props) => {
 
   const dispatch = useDispatch();
 
-  //firebase
-
-  const onAddMessage = useCallback(
-    (message) => {
-      refMessages.child(chatsId).child(message.id).set(message);
-    },
-    [chatsId]
-  );
-
   useEffect(() => {
     dispatch(initMessageFromFirebase(chatsId));
   }, [chatsId, dispatch]);
@@ -47,22 +38,22 @@ export const Messanger = (props) => {
     dispatch(messageActionNewChat(chats[chats.length - 1].id));
   }, [dispatch, chats]);
 
-  const onClickBtn = useCallback(() => {
-    dispatch(addMessageWithThunk(chatsId));
-    dispatch(messageActionValue(""));
-  }, [chatsId, dispatch]);
-
-  // const handleKeyDown = useCallback(
-  //   (e) => {
-  //     if (e.key === "Enter") {
-  //       onClickBtn();
-  //     }
-  //   },
-  //   [onClickBtn]
-  // );
-
   let chatFinder =
     messages.find((item) => item.id === chatsId) || newMessageList();
+
+  const onClickBtn = useCallback(
+    (text) => {
+      let message = {
+        id: `${chatFinder.messages.length + 1}`,
+        author: "Me",
+        text: text,
+      };
+      dispatch(addMessageWithFirebase(chatsId, message));
+      dispatch(addMessageWithThunk(chatsId));
+      dispatch(messageActionValue(""));
+    },
+    [chatsId, dispatch, chatFinder]
+  );
 
   if (!chatFinder) {
     return (

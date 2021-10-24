@@ -1,5 +1,5 @@
 import {
-  ADD_NEW_MESSAGE,
+  ADD_MESSAGE_BOT,
   MESSAGE_VALUE,
   ADD_NEW_MESSAGE_LIST,
   UPDATE_MESSAGE_LIST,
@@ -41,47 +41,42 @@ export const messangerReducer = (state = initialState, action) => {
         messageList: [...state.messageList, newListItem],
       };
     case UPDATE_MESSAGE_LIST:
-      debugger;
       let chatFinder = state.messageList.find(
         (item) => item.id === action.chatId
       );
-      let find = chatFinder.messages.find(
-        (item) => item.id === action.payload[action.payload.length - 1].id
-      );
-      debugger;
-      if (find === undefined) {
-        chatFinder = {
-          ...chatFinder,
-          messages: [...chatFinder.messages, ...action.payload],
-        };
-        let newArrChats = state.messageList.map((chat) => {
-          if (chat.id === chatFinder.id) {
-            return chatFinder;
-          } else {
-            return chat;
+      for (let i = 0; i < action.payload.length; i++) {
+        for (let j = 0; j < chatFinder.messages.length; j++) {
+          if (action.payload[i].id === chatFinder.messages[j].id) {
+            action.payload.splice(action.payload[i], 1);
           }
-        });
-        return {
-          ...state,
-          messageList: newArrChats,
-        };
-      } else {
-        return state;
+        }
       }
-
+      chatFinder = {
+        ...chatFinder,
+        messages: [...chatFinder.messages, ...action.payload],
+      };
+      let newArrChats = state.messageList.map((chat) => {
+        if (chat.id === chatFinder.id) {
+          return chatFinder;
+        } else {
+          return chat;
+        }
+      });
+      return {
+        ...state,
+        messageList: newArrChats,
+      };
     case MESSAGE_VALUE:
       return {
         ...state,
         messageText: action.value,
       };
-    case ADD_NEW_MESSAGE: {
-      let chatFinder = state.messageList.find(
-        (item) => item.id === action.chatId
-      );
+    case ADD_MESSAGE_BOT: {
+      let chatFinder = state.messageList.find((item) => item.id === action.id);
       let messageItem = {
         id: chatFinder.messages.length + 1,
         author: action.author,
-        text: action.message || state.messageText,
+        text: action.text || state.messageText,
       };
       chatFinder = {
         ...chatFinder,

@@ -13,13 +13,9 @@ export const MessageForm = ({ onClickBtn, handleKeyDown, lightThemeKey }) => {
 
   const message = useSelector(messageValue, shallowEqual);
 
-  // const handleChange = useCallback(() => {
-  //   onClickBtn({
-  //     id: `${generatorID()}`,
-  //     text: ref.current.value,
-  //   });
-  //   ref.current.value = "";
-  // }, [onClickBtn]);
+  const onAddMessage = useCallback(() => {
+    onClickBtn(ref.current.value);
+  }, [onClickBtn]);
 
   const handleChange = useCallback(() => {
     dispatch(messageActionValue(ref.current.value));
@@ -45,12 +41,11 @@ export const MessageForm = ({ onClickBtn, handleKeyDown, lightThemeKey }) => {
         value={message}
         ref={ref}
         onChange={handleChange}
-        // onKeyDown={handleKeyDown}
       />
       <Button
         variant="outlined"
         size="small"
-        onClick={onClickBtn}
+        onClick={onAddMessage}
         style={{
           backgroundColor: theme.palette.light.main,
           color: theme.palette.light.text,
