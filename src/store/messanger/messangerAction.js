@@ -41,16 +41,6 @@ export const updateMessageList = (newMessages, chatId) => {
   };
 };
 
-export const addMessageWithThunk = (chatId) => (dispatch, getState) => {
-  let state = getState().messanger;
-  let messageList = state.messageList.find((list) => list.id === chatId);
-  if (messageList.messages[messageList.messages.length - 1].author !== "Bot") {
-    setTimeout(() => {
-      dispatch(addMessageBot(chatId, "Bot", `Hello there!`));
-    }, 2000);
-  }
-};
-
 const getPayloadFromSnapshot = (snapshot) => {
   const newMessages = [];
   snapshot.forEach((entry) => {

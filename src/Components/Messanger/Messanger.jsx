@@ -12,7 +12,6 @@ import {
   initMessageFromFirebase,
   messageActionNewChat,
   addMessageWithFirebase,
-  addMessageWithThunk,
   messageActionValue,
 } from "../../store/messanger/messangerAction";
 import { chatSelector } from "../../store/chat/chatSelector";
@@ -49,7 +48,6 @@ export const Messanger = (props) => {
         text: text,
       };
       dispatch(addMessageWithFirebase(chatsId, message));
-      dispatch(addMessageWithThunk(chatsId));
       dispatch(messageActionValue(""));
     },
     [chatsId, dispatch, chatFinder]

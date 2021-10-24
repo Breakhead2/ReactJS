@@ -1,5 +1,4 @@
 import {
-  ADD_MESSAGE_BOT,
   MESSAGE_VALUE,
   ADD_NEW_MESSAGE_LIST,
   UPDATE_MESSAGE_LIST,
@@ -71,29 +70,6 @@ export const messangerReducer = (state = initialState, action) => {
         ...state,
         messageText: action.value,
       };
-    case ADD_MESSAGE_BOT: {
-      let chatFinder = state.messageList.find((item) => item.id === action.id);
-      let messageItem = {
-        id: chatFinder.messages.length + 1,
-        author: action.author,
-        text: action.text || state.messageText,
-      };
-      chatFinder = {
-        ...chatFinder,
-        messages: [...chatFinder.messages, messageItem],
-      };
-      let newArrChats = state.messageList.map((chat) => {
-        if (chat.id === chatFinder.id) {
-          return chatFinder;
-        } else {
-          return chat;
-        }
-      });
-      return {
-        ...state,
-        messageList: newArrChats,
-      };
-    }
     default:
       return state;
   }
