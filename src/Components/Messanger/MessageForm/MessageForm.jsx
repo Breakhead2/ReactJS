@@ -1,30 +1,29 @@
 import { Button, useTheme } from "@material-ui/core";
 import React, { useCallback, useEffect, useRef } from "react";
 import style from "./MessageForm.module.css";
-// import { useSelector, shallowEqual, useDispatch } from "react-redux";
-// import { messageValue } from "../../../store/messanger/messangerSelector";
-// import { messageActionValue } from "../../../store/messanger/messangerAction";
-import { generatorID } from "../../../generators/generators";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { messageValue } from "../../../store/messanger/messangerSelector";
+import { messageActionValue } from "../../../store/messanger/messangerAction";
 
 export const MessageForm = ({ onClickBtn, handleKeyDown, lightThemeKey }) => {
   const ref = useRef(null);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const theme = useTheme();
 
-  // const message = useSelector(messageValue, shallowEqual);
-
-  const handleChange = useCallback(() => {
-    onClickBtn({
-      id: `${generatorID()}`,
-      text: ref.current.value,
-    });
-    ref.current.value = "";
-  }, [onClickBtn]);
+  const message = useSelector(messageValue, shallowEqual);
 
   // const handleChange = useCallback(() => {
-  //   dispatch(messageActionValue(ref.current.value));
-  // }, [dispatch]);
+  //   onClickBtn({
+  //     id: `${generatorID()}`,
+  //     text: ref.current.value,
+  //   });
+  //   ref.current.value = "";
+  // }, [onClickBtn]);
+
+  const handleChange = useCallback(() => {
+    dispatch(messageActionValue(ref.current.value));
+  }, [dispatch]);
 
   useEffect(() => {
     ref.current?.focus();
@@ -43,15 +42,15 @@ export const MessageForm = ({ onClickBtn, handleKeyDown, lightThemeKey }) => {
             ? theme.palette.light.text
             : theme.palette.dark.text,
         }}
-        // value={message}
+        value={message}
         ref={ref}
-        // onChange={handleChange}
+        onChange={handleChange}
         // onKeyDown={handleKeyDown}
       />
       <Button
         variant="outlined"
         size="small"
-        onClick={handleChange}
+        onClick={onClickBtn}
         style={{
           backgroundColor: theme.palette.light.main,
           color: theme.palette.light.text,

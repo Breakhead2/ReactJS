@@ -2,6 +2,7 @@ import {
   ADD_NEW_MESSAGE,
   MESSAGE_VALUE,
   ADD_NEW_MESSAGE_LIST,
+  UPDATE_MESSAGE_LIST,
 } from "./messangerAction";
 
 const initialState = {
@@ -39,13 +40,41 @@ export const messangerReducer = (state = initialState, action) => {
         ...state,
         messageList: [...state.messageList, newListItem],
       };
+    case UPDATE_MESSAGE_LIST:
+      debugger;
+      let chatFinder = state.messageList.find(
+        (item) => item.id === action.chatId
+      );
+      let find = chatFinder.messages.find(
+        (item) => item.id === action.payload[action.payload.length - 1].id
+      );
+      debugger;
+      if (find === undefined) {
+        chatFinder = {
+          ...chatFinder,
+          messages: [...chatFinder.messages, ...action.payload],
+        };
+        let newArrChats = state.messageList.map((chat) => {
+          if (chat.id === chatFinder.id) {
+            return chatFinder;
+          } else {
+            return chat;
+          }
+        });
+        return {
+          ...state,
+          messageList: newArrChats,
+        };
+      } else {
+        return state;
+      }
 
     case MESSAGE_VALUE:
       return {
         ...state,
         messageText: action.value,
       };
-    case ADD_NEW_MESSAGE:
+    case ADD_NEW_MESSAGE: {
       let chatFinder = state.messageList.find(
         (item) => item.id === action.chatId
       );
@@ -69,6 +98,7 @@ export const messangerReducer = (state = initialState, action) => {
         ...state,
         messageList: newArrChats,
       };
+    }
     default:
       return state;
   }

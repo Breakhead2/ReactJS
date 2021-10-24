@@ -3,30 +3,34 @@ import { MessageList } from "./MessageList/MessageList";
 import { MessageForm } from "./MessageForm/MessageForm";
 import { useTheme } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-// import { NotFound } from "../NotFound/NotFound";
-import { useSelector, shallowEqual /*useDispatch*/ } from "react-redux";
+import { NotFound } from "../NotFound/NotFound";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { getThemeValue } from "../../store/theme/themeSelector";
-// import { messagerSelector } from "../../store/messanger/messangerSelector";
-// import { messageActionNewChat } from "../../store/messanger/messangerAction";
-// import { chatSelector } from "../../store/chat/chatSelector";
-import { useCallback, useState, useEffect } from "react";
-import // messageActionValue,
-// addMessageWithThunk,
-"../../store/messanger/messangerAction";
+import { useCallback, useEffect } from "react";
 import { refMessages } from "../../services/firebase";
+import { messagerSelector } from "../../store/messanger/messangerSelector";
+import {
+  initMessageFromFirebase,
+  messageActionNewChat,
+  addMessageWithThunk,
+  messageActionValue,
+} from "../../store/messanger/messangerAction";
+import { chatSelector } from "../../store/chat/chatSelector";
 
 export const Messanger = (props) => {
   const theme = useTheme();
+
   const lightThemeKey = useSelector(getThemeValue, shallowEqual);
-  // const messages = useSelector(messagerSelector, shallowEqual);
-  // const chats = useSelector(chatSelector, shallowEqual);
+
+  const messages = useSelector(messagerSelector, shallowEqual);
+
+  const chats = useSelector(chatSelector, shallowEqual);
+
   const { chatsId } = useParams();
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   //firebase
-
-  const [messages, setMessages] = useState([]);
 
   const onAddMessage = useCallback(
     (message) => {
@@ -36,23 +40,17 @@ export const Messanger = (props) => {
   );
 
   useEffect(() => {
-    refMessages.child(chatsId).on("value", (snapshot) => {
-      const newMessages = [];
-      snapshot.forEach((entry) => {
-        newMessages.push(entry.val());
-      });
-      setMessages(newMessages);
-    });
-  }, [chatsId]);
+    dispatch(initMessageFromFirebase(chatsId));
+  }, [chatsId, dispatch]);
 
-  // const newMessageList = useCallback(() => {
-  //   dispatch(messageActionNewChat(chats[chats.length - 1].id));
-  // }, [dispatch, chats]);
+  const newMessageList = useCallback(() => {
+    dispatch(messageActionNewChat(chats[chats.length - 1].id));
+  }, [dispatch, chats]);
 
-  // const onClickBtn = useCallback(() => {
-  //   dispatch(addMessageWithThunk(chatsId));
-  //   dispatch(messageActionValue(""));
-  // }, [chatsId, dispatch]);
+  const onClickBtn = useCallback(() => {
+    dispatch(addMessageWithThunk(chatsId));
+    dispatch(messageActionValue(""));
+  }, [chatsId, dispatch]);
 
   // const handleKeyDown = useCallback(
   //   (e) => {
@@ -63,16 +61,16 @@ export const Messanger = (props) => {
   //   [onClickBtn]
   // );
 
-  // let chatFinder =
-  //   messages.find((item) => item.id === chatsId) || newMessageList();
+  let chatFinder =
+    messages.find((item) => item.id === chatsId) || newMessageList();
 
-  // if (!chatFinder) {
-  //   return (
-  //     <div>
-  //       <NotFound text="Чат не найден" />
-  //     </div>
-  //   );
-  // }
+  if (!chatFinder) {
+    return (
+      <div>
+        <NotFound text="Чат не найден" />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -83,14 +81,12 @@ export const Messanger = (props) => {
           : theme.palette.dark.second,
       }}
     >
-      {/* <MessageList chatFinder={chatFinder} lightThemeKey={lightThemeKey} /> */}
-      <MessageList lightThemeKey={lightThemeKey} messages={messages} />
-      {/* <MessageForm
+      <MessageList chatFinder={chatFinder} lightThemeKey={lightThemeKey} />
+      <MessageForm
         onClickBtn={onClickBtn}
-        handleKeyDown={handleKeyDown}
+        //handleKeyDown={handleKeyDown}
         lightThemeKey={lightThemeKey}
-      /> */}
-      <MessageForm onClickBtn={onAddMessage} lightThemeKey={lightThemeKey} />
+      />
     </div>
   );
 };

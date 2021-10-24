@@ -1,25 +1,18 @@
 import { useTheme } from "@material-ui/styles";
 import style from "./MessageList.module.css";
 
-export const MessageList = ({ /*chatFinder*/ lightThemeKey, messages }) => {
+export const MessageList = ({ chatFinder, lightThemeKey }) => {
+  debugger;
   const theme = useTheme();
 
-  let messageItems = messages.map((item) => (
+  let messageItems = chatFinder.messages.map((item) => (
     <MessageItem
       key={item.id}
       text={item.text}
-      // author={item.author}
+      author={item.author}
       lightThemeKey={lightThemeKey}
     />
   ));
-  // let messageItems = chatFinder.messages.map((item) => (
-  //   <MessageItem
-  //     key={item.id}
-  //     text={item.text}
-  //     author={item.author}
-  //     lightThemeKey={lightThemeKey}
-  //   />
-  // ));
 
   return (
     <div
@@ -38,7 +31,7 @@ export const MessageList = ({ /*chatFinder*/ lightThemeKey, messages }) => {
   );
 };
 
-const MessageItem = ({ text, /*author*/ lightThemeKey }) => {
+const MessageItem = ({ text, author, lightThemeKey }) => {
   const theme = useTheme();
   return (
     <div
@@ -53,7 +46,7 @@ const MessageItem = ({ text, /*author*/ lightThemeKey }) => {
       }}
     >
       <p className={style.text}>
-        {/* <span className={style.author}>{author}:&nbsp;</span> */}
+        <span className={style.author}>{author}:&nbsp;</span>
         {text}
       </p>
     </div>
