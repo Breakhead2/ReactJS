@@ -1,25 +1,21 @@
 import { chatReducer, initialState } from "../chatReducer";
 import { chatAddAction, chatRemoveAction } from "../chatAction";
 
-describe.skip("тестирование функции chatReducer", () => {
-  test("вызов chatReducer без аргументов вернет initialState", () => {
+describe("тестирование функции chatReducer", () => {
+  test("вызов chatReducer без экшена вернет initialState", () => {
     const result = chatReducer();
     expect(result).toEqual(initialState);
   });
 
   test("добавление нового чата в chats", () => {
-    const chatName = "newChat";
-    const result = chatReducer(undefined, chatAddAction(chatName));
-    expect(result.chats[result.chats.length - 1].chatName).toEqual(
-      result.chats[result.chats.length - 1].chatName
-    );
+    const result = chatReducer(undefined, chatAddAction("Ivan"));
+    expect(result.chats[result.chats.length - 1].chatName).toEqual("Ivan");
   });
 
   test("удаление чата в chats", () => {
     const id = "2";
-    const result = chatReducer(undefined, chatRemoveAction(id));
-    expect(result.chats.length).toEqual(
-      initialState.chats.filter((item) => item.id !== id).length
-    );
+    const state = chatReducer(undefined, chatRemoveAction(id));
+    const result = state.chats.find((item) => item.id === id);
+    expect(result).toEqual(undefined);
   });
 });

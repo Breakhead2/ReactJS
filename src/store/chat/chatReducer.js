@@ -1,7 +1,7 @@
 import { generatorID } from "../../generators/generators";
 import { ADD_CHAT, REMOVE_CHAT } from "./chatAction";
 
-const initialState = {
+export const initialState = {
   chats: [
     {
       id: "1",

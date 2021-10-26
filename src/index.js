@@ -5,7 +5,7 @@ import { App } from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@material-ui/core";
 
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     light: {
       main: "#fff",
@@ -30,5 +30,5 @@ ReactDOM.render(
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root") || document.createElement("div")
 );
