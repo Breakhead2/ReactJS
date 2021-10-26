@@ -16,6 +16,7 @@ export const NotFound = ({ text }) => {
       }}
     >
       <div
+        data-testid="test_props_text"
         className={style.message}
         style={{
           backgroundColor: lightThemeKey
