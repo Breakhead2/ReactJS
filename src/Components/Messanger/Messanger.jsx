@@ -71,11 +71,7 @@ export const Messanger = (props) => {
       }}
     >
       <MessageList chatFinder={chatFinder} lightThemeKey={lightThemeKey} />
-      <MessageForm
-        onClickBtn={onClickBtn}
-        //handleKeyDown={handleKeyDown}
-        lightThemeKey={lightThemeKey}
-      />
+      <MessageForm onClickBtn={onClickBtn} lightThemeKey={lightThemeKey} />
     </div>
   );
 };

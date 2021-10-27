@@ -61,8 +61,14 @@ export const Profile = (props) => {
           <p>Something about me</p>
         </div>
         <div className={style.subscribe}>
-          <Switch checked={subscribe} onClick={onSub} color="secondary" />
+          <Switch
+            checked={subscribe}
+            data-testid="switch"
+            onClick={onSub}
+            color="secondary"
+          />
           <p
+            data-testid="subscribe_status"
             style={{
               color: lightThemeKey
                 ? theme.palette.light.text
