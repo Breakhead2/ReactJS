@@ -1,4 +1,4 @@
-https://breakhead2.github.io/ReactJS/public/
+https://breakhead2.github.io/ReactJS
 
 
 # Getting Started with Create React App
