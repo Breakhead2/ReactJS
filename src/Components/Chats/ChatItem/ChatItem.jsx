@@ -7,19 +7,21 @@ import {
   Button,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { chatRemoveAction } from "../../../store/chat/chatAction";
+import { chatRemove } from "../../../store/chat/chatAction";
 
 export const ChatItem = ({ name, pathId, lightThemeKey }) => {
+  const { push } = useHistory();
   const theme = useTheme();
   const dispatch = useDispatch();
   const onDeleteChat = useCallback(() => {
-    dispatch(chatRemoveAction(pathId));
-  }, [dispatch, pathId]);
+    dispatch(chatRemove(pathId));
+    push("/chats");
+  }, [dispatch, pathId, push]);
 
-  let src = `/images/ava_${name}.jpg`;
+  let src = `https://breakhead2.github.io/images/ava_${name}.jpg`;
 
   return (
     <div className={style.box}>

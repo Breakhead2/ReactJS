@@ -1,10 +1,13 @@
 import { List, Button } from "@material-ui/core";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getThemeValue } from "../../store/theme/themeSelector";
 import { chatSelector } from "../../store/chat/chatSelector";
-import { chatAddAction } from "../../store/chat/chatAction";
+import {
+  addChatWithFirebase,
+  initChatsFromFirebase,
+} from "../../store/chat/chatAction";
 import style from "./Chats.module.css";
 import { ChatItem } from "./ChatItem/ChatItem";
 import { useTheme } from "@material-ui/styles";
@@ -16,10 +19,19 @@ export const Chats = (props) => {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(initChatsFromFirebase());
+  }, [dispatch]);
+
   const onAddChat = useCallback(() => {
     let name = prompt("Ввведите имя чата");
-    dispatch(chatAddAction(name));
-  }, [dispatch]);
+    let chatId = chats.length + 1;
+    let chat = {
+      id: chatId,
+      chatName: name,
+    };
+    dispatch(addChatWithFirebase(chat));
+  }, [dispatch, chats]);
 
   const lightThemeKey = useSelector(getThemeValue, shallowEqual);
 

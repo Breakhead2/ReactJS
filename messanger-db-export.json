@@ -1,0 +1,32 @@
+{
+  "chats" : [ null, {
+    "chatName" : "Andrew",
+    "id" : "1"
+  }, {
+    "chatName" : "Denis",
+    "id" : "2"
+  }, {
+    "chatName" : "Maxim",
+    "id" : "3"
+  }, {
+    "chatName" : "123",
+    "id" : 4
+  } ],
+  "messages" : [ null, [ null, {
+    "author" : "Andrew",
+    "id" : "1",
+    "text" : "hello!"
+  } ], [ null, {
+    "author" : "Denis",
+    "id" : "1",
+    "text" : "hi! how are you?"
+  } ], [ null, {
+    "author" : "Maxim",
+    "id" : "1",
+    "text" : "Privet!"
+  } ], [ null, {
+    "author" : "Me",
+    "id" : "1",
+    "text" : "test"
+  } ] ]
+}

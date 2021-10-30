@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /src/services_copy
+/messanger-db-export
 /.pnp
 .pnp.js
 

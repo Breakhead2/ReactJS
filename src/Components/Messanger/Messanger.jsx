@@ -35,7 +35,8 @@ export const Messanger = (props) => {
 
   const newMessageList = useCallback(() => {
     dispatch(messageActionNewChat(chats[chats.length - 1].id));
-  }, [dispatch, chats]);
+    dispatch(initMessageFromFirebase(chatsId));
+  }, [dispatch, chats, chatsId]);
 
   let chatFinder =
     messages.find((item) => item.id === chatsId) || newMessageList();
@@ -71,11 +72,7 @@ export const Messanger = (props) => {
       }}
     >
       <MessageList chatFinder={chatFinder} lightThemeKey={lightThemeKey} />
-      <MessageForm
-        onClickBtn={onClickBtn}
-        //handleKeyDown={handleKeyDown}
-        lightThemeKey={lightThemeKey}
-      />
+      <MessageForm onClickBtn={onClickBtn} lightThemeKey={lightThemeKey} />
     </div>
   );
 };
